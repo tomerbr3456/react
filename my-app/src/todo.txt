@@ -1,0 +1,13 @@
+TODO:
+
+formatting: ctrl A + ctrl K + F
+
+
+
+class names - improve naming
+
+
+-- questions
+why should i prevent from arrow functions inside render
+
+check why handle submit triggers refresh
