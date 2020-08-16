@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-
+var newchange=""
 var classActive = "isActiveButton Active"
 var classNotActive = "isActiveButton"
 class MainList extends React.Component {
@@ -82,7 +82,6 @@ class MainList extends React.Component {
     }
 
     render() {
-
         return (
             <div className="Page">
                 <h1 className="headerStyle">ToDoList</h1>
