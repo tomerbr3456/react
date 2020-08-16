@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 var newchange=""
+var newchange2=""
 var classActive = "isActiveButton Active"
 var classNotActive = "isActiveButton"
 class MainList extends React.Component {
