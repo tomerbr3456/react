@@ -1,34 +1,35 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
-var newchange=""
-var newchange2=""
 var classActive = "isActiveButton Active"
 var classNotActive = "isActiveButton"
+const filterArray = [{}]
+const toDoList = [{ id: 1, name: "GUY", isActive: true }, { id: 66777, name: "GUY2", isActive: true }, { id: 2, name: "GUY3", isActive: false }]
+
 class MainList extends React.Component {
 
     constructor(props) {
-        const toDoList = [{ id: 1, name: "GUY", isActive: true }, { id: 66777, name: "GUY2", isActive: true }, { id: 2, name: "GUY3", isActive: false }]
         super(props);
         this.state = {
             toDoList,
-            value: '',
+            toDoName: '',
+            searchBar: '',
         }
-        this.changeActive = this.changeActive.bind(this);
+
+        this.toggleActive = this.toggleActive.bind(this);
         this.updateToDoName = this.updateToDoName.bind(this);
+        this.updateSearchBar = this.updateSearchBar.bind(this);
         this.addNewToDo = this.addNewToDo.bind(this);
-        this.render = this.render.bind(this);
     }
-    isActive(index) {
+
+    changeActiveClass(index) {
         if (this.state.toDoList[index].isActive == true) {
             return classActive
         }
         return classNotActive
     }
 
-
-    changeActive(index) {
+    toggleActive(index) {
 
         if (this.state.toDoList[index].isActive == true) {
             this.setState((state) => {
@@ -45,52 +46,59 @@ class MainList extends React.Component {
             });
         }
     }
+
+
     addNewToDo(event) {
-        if (this.state.value != "") {
-            let newToDo = { id: this.state.toDoList.length, name: this.state.value, isActive: false }
-            let lastArray = []
-            lastArray.push(newToDo)
-            let submitted = "added"
-            this.updateToDoName(event, submitted)
-            // 
+        // ma ze value? rename
+        if (this.state.toDoName != "") {
+            let newToDo = { id: this.state.toDoList.length + 1, name: this.state.toDoName, isActive: false }
             this.setState({
-                toDoList: [...this.state.toDoList, ...lastArray]
+                toDoList: [...this.state.toDoList, newToDo],
+                toDoName: ''
             })
         }
 
     }
 
 
-    updateToDoName(event, submitted) {
-        if (submitted == "added")
-            this.setState({ value: "" });
-        else
-            this.setState({ value: event.target.value });
+    updateToDoName(event) {
+
+        this.setState({ toDoName: event.target.value });
     }
-    deleteToDo(index) {
-        let deletedArr = this.state.toDoList.slice(0, this.state.toDoList.length)
-        deletedArr.splice(index, 1)
+
+    updateSearchBar(event) {
+        this.setState({ searchBar: event.target.value })
+    }
+
+    deleteToDo(id) {
+        let deletedArr = this.state.toDoList.filter(todo => todo.id != id)
         this.setState({ toDoList: deletedArr });
     }
+
     componentDidMount() {
-        const json = localStorage.getItem('toDoList')
-        const toDoList = JSON.parse(json)
+        const stringToDoList = localStorage.getItem('toDoList')
+        const toDoList = JSON.parse(stringToDoList)
         this.setState(() => ({ toDoList }))
     }
+
     componentDidUpdate(prevProps, prevStates) {
         const json = JSON.stringify(this.state.toDoList)
         localStorage.setItem('toDoList', json)
     }
 
     render() {
+        const filterArray = this.state.toDoList.filter(todo => todo.name.toLowerCase().includes(this.state.searchBar.toLowerCase()))
         return (
             <div className="Page">
                 <h1 className="headerStyle">ToDoList</h1>
+                <label className="searchBarContainer">
+                    <input className="searchBar" type="text" value={this.state.searchBar} onChange={this.updateSearchBar} placeholder="search for name!" />
+                </label>
                 <div className="toDoManager">
                     <div className="newToDo" >
 
                         <label>
-                            <input className="input" type="text" value={this.state.value} onChange={this.updateToDoName} />
+                            <input className="input" type="text" value={this.state.toDoName} onChange={this.updateToDoName} />
                         </label>
 
                     </div>
@@ -98,14 +106,13 @@ class MainList extends React.Component {
                 </div>
 
                 <div className="listStyle">
-                    {this.state.toDoList.map((name, index) =>
-                        <div className="buttonsFather">
-                            <button id="buttonActive" key={index.toString()} className={this.isActive(index)} onClick={() => this.changeActive(index)}>
-                                <div className="toDo" >{name.name}</div>
 
-                            </button>
-                            <button id="buttonDelete" className="deleteItem buttonDelete" onClick={() => this.deleteToDo(index)}>press to delete</button>
-                        </div>
+                    {filterArray.map((todo, index) =>
+                        <button id="buttonActive" key={index.toString()} className={this.changeActiveClass(index)} onClick={() => this.toggleActive(index)}>
+                            <div id="buttonDelete" className="deleteItem buttonDelete" onClick={(e) => { e.stopPropagation(); this.deleteToDo(todo.id) }}>press to delete</div>
+                            <div className="toDo" >{todo.name}</div>
+
+                        </button>
                     )
 
                     }
