@@ -13,9 +13,22 @@
   text-align: center;
   height: 100px;
 }
+.searchBar{
+  text-align: center;
+  height: 100px;
+  justify-content: center;
+  align-content: center;
+
+}
+.searchBarContainer{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+}
 .Page{
-  height: 800px;
-  width: 1630px;
+  height: 700px;
+  width: 1510px;
   background-color: #61dafb;
 }
 .newToDo{
@@ -69,7 +82,7 @@
   visibility: hidden;
   display: none;
 }
-#buttonActive:hover + #buttonDelete{
+#buttonActive:hover > #buttonDelete{
   visibility: visible;
   display: block;
 }
@@ -81,14 +94,6 @@
   justify-content: center;
   align-items: center;
   width:100% ;
-}
-.buttonsFather{
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
 }
 .Active{
   background-color: chartreuse;
@@ -110,7 +115,7 @@
   justify-content: center;
   align-items: center;
   font-size: 30px;
-  max-height: 400px;
+  max-height: 300px;
   overflow-y: auto;
   justify-content: space-between;
   text-align: center; 
