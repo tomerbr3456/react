@@ -1,149 +1,117 @@
+
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import AddItem from './AddItem';
 import Filters from './Filters';
 import Todos from './Todos'
-var classActive = "isActiveButton Active"
-var classNotActive = "isActiveButton"
+
 const toDoList = [{ id: 1, name: "GUY", isActive: true, Category: "Friends" }, { id: 66777, name: "GUY2", isActive: true, Category: "Sport" }, { id: 2, name: "GUY3", isActive: false, Category: "Study" }]
 const CategoryOptions = ["sports", "friends", "study"];
 
-class MainList extends React.Component {
+export const syncStateAndLocalStorage = (mainListState) => {
+  const localStorageValues = {}
+  const stateKeys = Object.keys(mainListState)
 
+  stateKeys.forEach(stateKeys => {
+    if (localStorage.getItem(stateKeys) === null) {
+      const stringKeyValue = JSON.stringify(mainListState[stateKeys])
+      localStorage.setItem(stateKeys, stringKeyValue)
+    }
+    const stringLocalStorageValue = localStorage.getItem(stateKeys)
+    const jsonLocalStorageValue = JSON.parse(stringLocalStorageValue)
+    localStorageValues[stateKeys] = jsonLocalStorageValue
+  })
+
+  return localStorageValues
+}
+
+export const updateLocalStorageByState = (state) => {
+  const stateKeys = Object.keys(state)
+  stateKeys.forEach(stateKeys => {
+    const json = JSON.stringify(state[stateKeys])
+    localStorage.setItem(stateKeys, json)
+  })
+}
+class MainList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       toDoList,
-      nameToAdd: '',
       searchedName: '',
       searchedCategory: '',
       CategoryOptions: CategoryOptions,
-
-    }
-    this.toggleActive = this.toggleActive.bind(this);
-    this.updateToDoName = this.updateToDoName.bind(this);
-    this.updateSearchBar = this.updateSearchBar.bind(this);
-    this.addNewToDo = this.addNewToDo.bind(this);
-    this.changeActiveClass = this.changeActiveClass.bind(this);
-    this.handleDeletePropragation = this.handleDeletePropragation.bind(this);
-    this.deleteToDo = this.deleteToDo.bind(this);
-  }
-
-  changeActiveClass(index) {
-    if (this.state.toDoList[index].isActive == true) {
-      return classActive
-    }
-    return classNotActive
-  }
-
-  toggleActive(index) {
-
-    if (this.state.toDoList[index].isActive == true) {
-      this.setState((state) => {
-        const setToDoList = this.state.toDoList.slice();
-        setToDoList[index].isActive = false;
-        return { toDoList: setToDoList }
-      });
-    }
-    else {
-      this.setState((state) => {
-        const setToDoList = this.state.toDoList.slice();
-        setToDoList[index].isActive = true;
-        return { toDoList: setToDoList }
-      });
     }
   }
 
-  addNewToDo(event) {
-    if (this.state.nameToAdd != "") {
-      let newToDo = { id: this.state.toDoList.length + 1, name: this.state.nameToAdd, isActive: false, Category: "Sports" }
-      this.setState({
-        toDoList: [...this.state.toDoList, newToDo],
-        nameToAdd: ''
-      })
-    }
+  // toggle by id
+  editTodo = (id, newTodo) => {
+    const newList = this.state.toDoList.map(currentTodo => {
+      if (currentTodo.id === id) {
+        if (newTodo.name === "")
+          newTodo.name = currentTodo.name
+        return {
+          ...currentTodo,
+          ...newTodo
+        }
+      }
 
+      return currentTodo
+    })
+
+    this.setState({ toDoList: newList })
   }
 
-  updateToDoName(event) {
-    this.setState({ nameToAdd: event.target.value });
+  addNewItem = (nameToAdd) => {
+    let newToDo = { id: this.state.toDoList[this.state.toDoList.length - 1].id + 1, name: nameToAdd, isActive: false, Category: "Sports" }
+    this.setState((prevState) => {
+      return { toDoList: [...prevState.toDoList, newToDo] }
+    })
   }
 
-  updateSearchBar(event) {
-    this.setState({ searchedName: event.target.value })
+  updateSearchedName = (searchedName) => {
+    this.setState({ searchedName: searchedName })
+  }
+  // 
+  deleteToDo = (id) => {
+    this.setState((prevState) => ({ toDoList: prevState.toDoList.filter(todo => todo.id !== id) }));
   }
 
-  deleteToDo(id) {
-    let deletedArr = this.state.toDoList.filter(todo => todo.id != id)
-    this.setState({ toDoList: deletedArr });
+  handleChangedCategory = (searchedCategory) => {
+    this.setState({ searchedCategory })
   }
+
+
 
   componentDidMount() {
-    if (localStorage.getItem('toDoList') === null) {
-      const json = JSON.stringify(this.state.toDoList)
-      localStorage.setItem('toDoList', json)
-    }
-    const stringToDoList = localStorage.getItem('toDoList')
-    const toDoList = JSON.parse(stringToDoList)
-    this.setState(() => ({ toDoList }))
+    const syncedState = syncStateAndLocalStorage(this.state)
 
-    if (localStorage.getItem('searchedName') === null) {
-      const searchedNameJson = JSON.stringify(this.state.searchedName)
-      localStorage.setItem('searchedName', searchedNameJson)
-    }
-
-    const stringSearchByBarName = localStorage.getItem('searchedName')
-    const searchByBarName = JSON.parse(stringSearchByBarName)
-    this.setState({ searchedName: searchByBarName })
-
-    if (localStorage.getItem('searchedCategory') === null) {
-      const searchedCategoryJson = JSON.stringify(this.state.searchedCategory)
-      localStorage.setItem('searchedCategory', searchedCategoryJson)
-    }
-
-    const stringsearchedCategory = localStorage.getItem('searchedCategory')
-    const searchedCategory = JSON.parse(stringsearchedCategory)
-    this.setState({ searchedCategory: searchedCategory })
-  }
-
-  pickCategory = (event) => {
-    this.setState({ searchedCategory: event.target.value })
+    this.setState(syncedState)
   }
 
   componentDidUpdate(prevProps, prevStates) {
-    const json = JSON.stringify(this.state.toDoList)
-    localStorage.setItem('toDoList', json)
-    const searchedNameJson = JSON.stringify(this.state.searchedName)
-    localStorage.setItem('searchedName', searchedNameJson)
-    const searchedCategoryJson = JSON.stringify(this.state.searchedCategory)
-    localStorage.setItem('searchedCategory', searchedCategoryJson)
-  }
-
-  handleDeletePropragation(e) {
-    e.stopPropagation();
+    updateLocalStorageByState(this.state)
   }
 
   render() {
-    var filteredByName = this.state.toDoList.filter(todo => todo.name.toLowerCase().includes(this.state.searchedName.toLowerCase()))
-    const filterByNameAndCategory = filteredByName.filter(todo => todo.Category.toLowerCase() == this.state.searchedCategory)
+    const filteredTodosByName = this.state.toDoList.filter(todo => todo.name.toLowerCase().includes(this.state.searchedName.toLowerCase()))
+    const filteredTodosByNameAndCategory = filteredTodosByName.filter(todo => todo.Category.toLowerCase() === this.state.searchedCategory)
+    const { handleChangedCategory, pickCategory, updateSearchedName, addNewItem, handleDeletePropragation, editTodo, deleteToDo } = this
     return (
-      <div className="Page">
+      <div className="Page" >
         <h1 className="headerStyle">ToDoList</h1>
         <Filters CategoryOptions={this.state.CategoryOptions}
+          handleChangedCategory={handleChangedCategory}
+          // destructring state
           searchedName={this.state.searchedName}
-          searchedCategory={this.state.searchedCategory} pickCategory={this.pickCategory} updateSearchBar={this.updateSearchBar} />
+          searchedCategory={this.state.searchedCategory} pickCategory={pickCategory} updateSearchedName={updateSearchedName} />
         <AddItem nameToAdd={this.state.nameToAdd}
+          addNewItem={addNewItem} />
+        <Todos Todos={filteredTodosByNameAndCategory}
+          handleDeletePropragation={handleDeletePropragation}
 
-
-          updateToDoName={this.updateToDoName}
-          addNewToDo={this.addNewToDo} />
-
-        <Todos filterByNameAndCategory={filterByNameAndCategory}
-          handleDeletePropragation={this.handleDeletePropragation}
-          changeActiveClass={this.changeActiveClass}
-          toggleActive={this.toggleActive}
-          deleteToDo={this.deleteToDo} />
+          editTodo={editTodo}
+          deleteToDo={deleteToDo} />
       </div>
     )
   }

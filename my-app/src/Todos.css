@@ -1,0 +1,20 @@
+.listContainer{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.listOfToDos {
+  display: flex; 
+ font-size: 30px;
+ width: 49.5%;
+  flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ font-size: 30px;
+ max-height: 300px;
+ overflow-y: auto;
+ overflow-x: hidden;
+ justify-content: space-between;
+ text-align: center; 
+}

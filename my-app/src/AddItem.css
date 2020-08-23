@@ -1,0 +1,43 @@
+.toDoManager{
+  display: flex;
+  height: 100px;
+  text-align: center;
+  font-size: 50px;
+  justify-content: center;
+  align-items: center;
+  width:100% ;
+}
+.newToDo{
+  width: 35%;
+  height: 100%;
+  background-color:whitesmoke ;
+}
+.addInput{
+  font-size: 40px;
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.addToDoContainer{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  width: 14%;
+  height: 100%;
+  background-color: blue;
+}
+.addToDo{
+  text-align: center;
+  font-size: 40px;
+  background-color: blue;
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
