@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './AddItem.css';
-import { syncStateAndLocalStorage, updateLocalStorageByState } from './MainList'
+import { syncStateAndLocalStorage, updateLocalStorageByState } from '../GeneralFiles/localStorageManagment'
 
 const AddItem = (props) => {
 	const { addNewItem } = props
-
-	const [nameToAdd, setNameToAdd] = useState('');
+	const initialNameToAdd = ''
+	const [nameToAdd, setNameToAdd] = useState(initialNameToAdd);
 
 	const handleAddNewName = (event) => {
 		setNameToAdd(event.target.value)
@@ -13,12 +13,12 @@ const AddItem = (props) => {
 	}
 
 	useEffect(() => {
-		const localStorageValues = syncStateAndLocalStorage({ nameToAdd })
+		const localStorageValues = syncStateAndLocalStorage({ nameToAdd: initialNameToAdd })
 		setNameToAdd(localStorageValues.nameToAdd)
-	}, [])
+	}, [initialNameToAdd])
 
 	const addNewToDo = () => {
-		if (nameToAdd != "") {
+		if (nameToAdd !== "") {
 			addNewItem(nameToAdd)
 			setNameToAdd("")
 		}

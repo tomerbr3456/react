@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import MainList from './MainList';
+import MainList from './TodosDisplay/MainList';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <MainList/>
+    <MainList />
   </React.StrictMode>,
   document.getElementById('root')
 );

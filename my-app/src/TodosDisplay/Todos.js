@@ -1,15 +1,13 @@
 import React from 'react';
 import Todo from './Todo'
 import './Todos.css';
-// destructring = {}
 const Todos = (props) => {
-  const { toggleActive, deleteToDo, editTodo, Todos } = props
+  const { toggleActive, deleteToDo, updateTodo, Todos } = props
   return (
     <div className="listContainer">
       <div className="listOfToDos">
-        {/* rename filteredTodosByNameAndCategory */}
         {Todos.map((todo, index) =>
-          <Todo editTodo={editTodo}
+          <Todo updateTodo={updateTodo}
             todo={todo}
             index={index}
             deleteToDo={deleteToDo}

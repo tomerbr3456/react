@@ -1,12 +1,13 @@
 import React from 'react';
 import './Filters.css';
-// rename class names
+
 const Filters = (props) => {
-	const { handleChangedCategory, updateSearchedName, searchedCategory, CategoryOptions } = props
+	const { handleChangeCategory, updateSearchedName, searchedCategory, CategoryOptions, searchedName } = props
 
 	const pickCategory = (event) => {
-		handleChangedCategory(event.target.value)
+		handleChangeCategory(event.target.value)
 	}
+
 	const changeSearchedName = (event) => {
 		const searchedName = event.target.value
 		updateSearchedName(searchedName)
@@ -23,7 +24,8 @@ const Filters = (props) => {
 				<input
 					className="searchedName"
 					type="text"
-					value={props.searchedName} onChange={changeSearchedName} placeholder="Search by name!" />
+					value={searchedName}
+					onChange={changeSearchedName} placeholder="Search by name!" />
 			</div>
 		</div>
 	)
