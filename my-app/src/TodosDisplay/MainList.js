@@ -16,7 +16,7 @@ const MAIN_LIST_STATE_INITIAL_VALUES = {
 
 const MainList = () => {
   const [searchedName, setSearchedName] = useState(MAIN_LIST_STATE_INITIAL_VALUES.searchedName)
-  const [toDoList, setTodoList] = useState(MAIN_LIST_STATE_INITIAL_VALUES.toDoList)
+  const [toDoList, setTodoList] = useState(MAIN_LIST_STATE_INITIAL_VALUES.todoList)
   const [searchedCategory, setSearchedCategory] = useState(MAIN_LIST_STATE_INITIAL_VALUES.searchedCategory)
 
   const updateTodo = (id, newTodo) => {
@@ -54,7 +54,7 @@ const MainList = () => {
 
   useEffect(() => {
     const syncedState = syncStateAndLocalStorage(MAIN_LIST_STATE_INITIAL_VALUES)
-    setTodoList(syncedState.toDoList)
+    setTodoList(syncedState.todoList)
     setSearchedName(syncedState.searchedName)
     setSearchedCategory(syncedState.searchedCategory)
   }, []);
@@ -64,9 +64,10 @@ const MainList = () => {
     updateLocalStorageByState(mainListState)
   }, [toDoList, searchedName, searchedCategory]);
 
-  const filteredTodosByName = useMemo(() =>
-    toDoList.filter((currentTodo) => currentTodo.name.toLowerCase().includes(searchedName.toLowerCase())
-    ), [toDoList, searchedName]
+  const filteredTodosByName = useMemo(() => {
+    debugger
+    return toDoList.filter((currentTodo) => currentTodo.name.toLowerCase().includes(searchedName.toLowerCase()))
+  }, [toDoList, searchedName]
   );
 
   const filteredTodosByNameAndCategory = useMemo(() =>
