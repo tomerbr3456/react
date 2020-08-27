@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext, } from 'react';
 import './Filters.css';
+import { CategoryOptionsContext } from '../GeneralFiles/StateManagment'
+//import { syncStateAndLocalStorage, updateLocalStorageByState } from '../GeneralFiles/localStorageManagment'
 
 const Filters = (props) => {
-	const { handleChangeCategory, updateSearchedName, searchedCategory, CategoryOptions, searchedName } = props
+	const { handleChangeCategory, updateSearchedName, searchedCategory, searchedName } = props
+
+	const [CategoryOptions] = useContext(CategoryOptionsContext)
 
 	const pickCategory = (event) => {
 		handleChangeCategory(event.target.value)

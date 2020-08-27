@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import './App.css'
 import AddItem from '../Header/AddItem';
 import Filters from '../Filters/Filters';
 import Todos from './Todos'
 import { syncStateAndLocalStorage, updateLocalStorageByState } from '../GeneralFiles/localStorageManagment'
+import { TodoListContext } from '../GeneralFiles/StateManagment'
 
 const todoList = [{ id: 1, name: "GUY", isActive: true, Category: "Friends" }, { id: 66777, name: "GUY2", isActive: true, Category: "Sport" }, { id: 2, name: "GUY3", isActive: false, Category: "Study" }]
-const CategoryOptions = ["sports", "friends", "study"];
+const CategoryOptions = ["sports", "friends", "study", "all"];
 
 const MAIN_LIST_STATE_INITIAL_VALUES = {
   todoList,
@@ -16,11 +17,12 @@ const MAIN_LIST_STATE_INITIAL_VALUES = {
 
 const MainList = () => {
   const [searchedName, setSearchedName] = useState(MAIN_LIST_STATE_INITIAL_VALUES.searchedName)
-  const [toDoList, setTodoList] = useState(MAIN_LIST_STATE_INITIAL_VALUES.todoList)
+  const [todoList, setTodoList] = useContext(TodoListContext)
   const [searchedCategory, setSearchedCategory] = useState(MAIN_LIST_STATE_INITIAL_VALUES.searchedCategory)
 
   const updateTodo = (id, newTodo) => {
-    const newList = toDoList.map(currentTodo => {
+
+    const newList = todoList.map(currentTodo => {
       if (currentTodo.id === id) {
         return {
           ...currentTodo,
@@ -32,20 +34,8 @@ const MainList = () => {
     setTodoList(newList)
   }
 
-  const addNewItem = (nameToAdd) => {
-    let newToDo = {
-      id: toDoList[toDoList.length - 1].id + 1,
-      name: nameToAdd, isActive: false, Category: "Sports"
-    }
-    setTodoList([...toDoList, newToDo])
-  }
-
   const updateSearchedName = (searchedName) => {
     setSearchedName(searchedName)
-  }
-
-  const deleteToDo = (id) => {
-    setTodoList(toDoList.filter(todo => todo.id !== id));
   }
 
   const handleChangeCategory = (searchedCategory) => {
@@ -57,21 +47,24 @@ const MainList = () => {
     setTodoList(syncedState.todoList)
     setSearchedName(syncedState.searchedName)
     setSearchedCategory(syncedState.searchedCategory)
-  }, []);
+  }, [setTodoList]);
 
   useEffect(() => {
-    const mainListState = { searchedCategory, searchedName, toDoList }
+    const mainListState = { searchedCategory, searchedName, todoList }
     updateLocalStorageByState(mainListState)
-  }, [toDoList, searchedName, searchedCategory]);
+  }, [todoList, searchedName, searchedCategory]);
 
   const filteredTodosByName = useMemo(() => {
-    debugger
-    return toDoList.filter((currentTodo) => currentTodo.name.toLowerCase().includes(searchedName.toLowerCase()))
-  }, [toDoList, searchedName]
+    return todoList.filter((currentTodo) => currentTodo.name.toLowerCase().includes(searchedName.toLowerCase()))
+  }, [todoList, searchedName]
   );
 
   const filteredTodosByNameAndCategory = useMemo(() =>
-    filteredTodosByName.filter(currentTodo => currentTodo.Category.toLowerCase() === searchedCategory)
+    filteredTodosByName.filter(currentTodo => {
+      if (currentTodo.Category.toLowerCase() === searchedCategory || searchedCategory === 'all')
+        return currentTodo
+      return ''
+    })
     , [searchedCategory, filteredTodosByName])
 
   return (
@@ -81,10 +74,9 @@ const MainList = () => {
         handleChangeCategory={handleChangeCategory}
         searchedName={searchedName}
         searchedCategory={searchedCategory} updateSearchedName={updateSearchedName} />
-      <AddItem addNewItem={addNewItem} />
+      <AddItem />
       <Todos Todos={filteredTodosByNameAndCategory}
-        updateTodo={updateTodo}
-        deleteToDo={deleteToDo} />
+        updateTodo={updateTodo} />
     </div>
   )
 

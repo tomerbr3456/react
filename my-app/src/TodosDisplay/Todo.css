@@ -36,6 +36,7 @@
 }
 .deleteItem{
   width: 10%;
+  float:left;
   font-size: 20px;
   background-color: dodgerblue;
 }

@@ -1,20 +1,24 @@
 .listContainer{
-  display: flex;
+  display: flex;               
+  flex-direction: row;          
+  flex-wrap: nowrap;             
+  justify-content: space-between; 
   text-align: center;
-  justify-content: center;
   align-items: center;
 }
+.editCategories{
+  width: 10%;
+  font-size: 20px;
+  background-color: dodgerblue;
+}
+.takePlace{
+  width:10%;
+}
 .listOfToDos {
-  display: flex; 
  font-size: 30px;
- width: 49.5%;
-  flex-direction: column;
- justify-content: center;
- align-items: center;
+ width: 49%;
  font-size: 30px;
  max-height: 300px;
  overflow-y: auto;
  overflow-x: hidden;
- justify-content: space-between;
- text-align: center; 
 }

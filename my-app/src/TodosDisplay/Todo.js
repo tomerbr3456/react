@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './Todo.css';
 import EditTodo from './EditTodo';
 import ReadOnlyTodo from './ReadOnlyTodo';
+import { TodoListContext } from '../GeneralFiles/StateManagment'
 
 const Todo = (props) => {
-  const { index, todo, updateTodo, deleteToDo } = props
+  const [todoList, setTodoList] = useContext(TodoListContext)
+  const { index, todo, updateTodo } = props
 
   const handleDelete = (event) => {
-    deleteToDo(todo.id)
+    const id = todo.id
+    setTodoList(todoList.filter((todo) => todo.id !== id));
     toggleEditChange()
   }
 
@@ -25,6 +28,7 @@ const Todo = (props) => {
   const [newTodo, setNewTodo] = useState(todo)
 
   const handleTodoChanges = (event) => {
+
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name
@@ -51,7 +55,8 @@ const Todo = (props) => {
           handleTodoChanges={handleTodoChanges}
           newTodo={newTodo}
           handleDelete={handleDelete}
-          changeTodo={changeTodo} />
+          changeTodo={changeTodo}
+          setNewTodo={setNewTodo} />
         :
         <ReadOnlyTodo
           handleEditButton={handleEditButton}

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './AddItem.css';
 import { syncStateAndLocalStorage, updateLocalStorageByState } from '../GeneralFiles/localStorageManagment'
+import { TodoListContext } from '../GeneralFiles/StateManagment'
 
-const AddItem = (props) => {
-	const { addNewItem } = props
+const AddItem = () => {
+	const [todoList, setTodoList] = useContext(TodoListContext)
 	const initialNameToAdd = ''
 	const [nameToAdd, setNameToAdd] = useState(initialNameToAdd);
 
@@ -19,7 +20,11 @@ const AddItem = (props) => {
 
 	const addNewToDo = () => {
 		if (nameToAdd !== "") {
-			addNewItem(nameToAdd)
+			let newToDo = {
+				id: todoList[todoList.length - 1].id + 1,
+				name: nameToAdd, isActive: false, Category: ''
+			}
+			setTodoList([...todoList, newToDo])
 			setNameToAdd("")
 		}
 	}
@@ -30,7 +35,7 @@ const AddItem = (props) => {
 				<input className="addInput" type="text" value={nameToAdd} onChange={handleAddNewName} />
 			</div>
 			<div className="addToDoContainer" >
-				<input className="addToDo" value="Add" onClick={addNewToDo} />
+				<div className="addToDo" onClick={addNewToDo} >Add</div>
 			</div>
 		</div>
 
