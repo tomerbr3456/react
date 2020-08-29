@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import Todo from './Todo'
 import { createUseStyles } from 'react-jss'
 
-
 const TodosStyle = createUseStyles({
   listContainer: {
     display: 'flex',
@@ -36,6 +35,7 @@ const Todos = (props) => {
   const {
     toggleActive, deleteToDo, updateTodo, TodosList,
   } = props
+  // 
   Todos.propTypes = {
     toggleActive: PropTypes.func.isRequired,
     updateTodo: PropTypes.number.isRequired,
@@ -46,7 +46,7 @@ const Todos = (props) => {
 
   return (
     <div className={classes.listContainer}>
-      <Link to="/UpdateCategories" className={classes.editCategories}>Edit Categories</Link>
+      <Link to="/Categories" className={classes.editCategories}>Edit Categories</Link>
       <div className={classes.listOfToDos}>
         {TodosList.map((todo, index) => (
           <Todo

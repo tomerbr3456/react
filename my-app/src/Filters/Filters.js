@@ -1,4 +1,4 @@
-import React, { useContext, } from 'react';
+import React, { useContext, useMemo, } from 'react';
 import { CategoryContext } from '../GeneralFiles/StateManagment'
 import { createUseStyles } from 'react-jss'
 
@@ -33,6 +33,10 @@ const Filters = (props) => {
 
 	const [Categories] = useContext(CategoryContext)
 
+	const categoriesFilterOptions = useMemo(() => {
+		return [...Categories, 'all']
+	}, [Categories])
+
 	const pickCategory = (event) => {
 		handleChangeCategory(event.target.value)
 	}
@@ -46,8 +50,8 @@ const Filters = (props) => {
 	return (
 		<div className={classes.filtersContainer}>
 			<select className={classes.selectCategory} value={searchedCategory} onChange={pickCategory} >
-				{Categories.map((category, index) =>
-					<option key={index} value={category}>{category}</option>
+				{categoriesFilterOptions.map((category, index) =>
+					<option key={index} value={null}>{category}</option>
 				)}
 			</select>
 			<div className={classes.searchedNameContainer}>

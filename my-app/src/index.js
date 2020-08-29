@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import MainList from './TodosDisplay/MainList';
-import UpdateCategories from './Filters/Categories';
+import Categories from './Filters/Categories';
 import * as serviceWorker from './serviceWorker';
 import { CategoryProvider } from './GeneralFiles/StateManagment'
 import { ToDoListProvider } from './GeneralFiles/TodoListManagment'
@@ -14,7 +14,7 @@ ReactDOM.render(
       <CategoryProvider>
         <ToDoListProvider>
           <Switch>
-            <Route path="/UpdateCategories" component={UpdateCategories} />
+            <Route path="/Categories" component={Categories} />
             <Route path="/" exact component={MainList} />
           </Switch>
         </ToDoListProvider>

@@ -84,6 +84,7 @@ const MainList = () => {
     [todoList, searchedName]);
 
   const filteredTodosByNameAndCategory = useMemo(() => filteredTodosByName.filter((currentTodo) => {
+    // move 'all' into const in Filters folder in FilterConstants file and use it everywhere you use 'all'
     if (currentTodo.category.toLowerCase() === searchedCategory || searchedCategory === 'all') {
       return currentTodo
     }

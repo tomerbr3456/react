@@ -37,11 +37,7 @@ const useStyles = createUseStyles({
 
 const EditCategory = (props) => {
   const { categoryEditInput, handleCategoryChanges, updateCategoryName } = props
-  EditCategory.propTypes = {
-    categoryEditInput: PropTypes.string.isRequired,
-    handleCategoryChanges: PropTypes.func.isRequired,
-    updateCategoryName: PropTypes.func.isRequired,
-  }
+
   const classes = useStyles()
   return (
     <div className={classes.editContainer}>
@@ -59,4 +55,11 @@ const EditCategory = (props) => {
     </div>
   )
 }
+
+EditCategory.propTypes = {
+  categoryEditInput: PropTypes.string.isRequired,
+  handleCategoryChanges: PropTypes.func.isRequired,
+  updateCategoryName: PropTypes.func.isRequired,
+}
+
 export default EditCategory

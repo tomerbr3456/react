@@ -64,6 +64,8 @@ const AddItem = (props) => {
 	const addNewName = () => {
 		if (nameToAdd !== '') {
 			addNewItem(nameToAdd)
+			// lo tov
+			// setNameToAdd
 			nameToAdd = ''
 		}
 	}
@@ -75,7 +77,8 @@ const AddItem = (props) => {
 
 	const classes = useStyles()
 	return (
-
+		// כל מה שקשור ספציפית לTODO לא צריך להיות פה
+		// או שהשם שלו צריך להשתנות
 		<div className={classes.toDoManager}>
 			<div className={classes.newToDo}>
 				<input className={classes.addInput} type="text" value={nameToAdd} onChange={handleAddItem} />

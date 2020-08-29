@@ -34,11 +34,13 @@ const useStyles = createUseStyles({
 const INITIAL_CATEGORY_INPUT = ['sports']
 const Categories = () => {
 
+  // סט ברבים תרשום
   const [Categories, SetCategory] = useContext(CategoryContext)
 
   const addNewCategory = (categoryToAdd) => {
     const newCategory = [...Categories, categoryToAdd]
     SetCategory(newCategory)
+    // 
     updateLocalStorageByState({ Categories: newCategory })
   }
 

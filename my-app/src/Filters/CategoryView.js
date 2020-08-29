@@ -51,6 +51,7 @@ const CategoryView = (props) => {
             updateCategoryName={handleEditCategoryName}
           />
         ) : (
+          // single Category 
           <ReadOnlyCategories
             category={category}
             changeEditMode={changeEditMode}
