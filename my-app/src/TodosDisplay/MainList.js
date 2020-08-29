@@ -15,11 +15,11 @@ const useStyles = createUseStyles({
 
 // lo tov
 const INITIAL_TODOS = [{
-  id: 1, name: 'GUY', isActive: true, Category: 'Friends',
+  id: 1, name: 'GUY', isActive: true, category: 'Friends',
 }, {
-  id: 66777, name: 'GUY2', isActive: true, Category: 'Sport',
+  id: 66777, name: 'GUY2', isActive: true, category: 'Sport',
 }, {
-  id: 2, name: 'GUY3', isActive: false, Category: 'Study',
+  id: 2, name: 'GUY3', isActive: false, category: 'Study',
 }]
 const Categories = ['sports', 'friends', 'study', 'all'];
 
@@ -60,7 +60,7 @@ const MainList = () => {
       id: todoList[todoList.length - 1].id + 1,
       name: nameToAdd,
       isActive: false,
-      Category: '',
+      category: '',
     }
     setTodoList([...todoList, newToDo])
   }
@@ -84,7 +84,7 @@ const MainList = () => {
     [todoList, searchedName]);
 
   const filteredTodosByNameAndCategory = useMemo(() => filteredTodosByName.filter((currentTodo) => {
-    if (currentTodo.Category.toLowerCase() === searchedCategory || searchedCategory === 'all') {
+    if (currentTodo.category.toLowerCase() === searchedCategory || searchedCategory === 'all') {
       return currentTodo
     }
     return ''

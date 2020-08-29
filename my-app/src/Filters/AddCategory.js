@@ -5,7 +5,7 @@ import './AddCategory.css'
 import { Link } from 'react-router-dom'
 
 const AddCategory = (props) => {
-  const { Category, handleCategoryInputChange, addNewCategory } = props
+  const { category, handleCategoryInputChange, addNewCategory } = props
   // תגדיר את זה מחוץ לקומפוננטה
   return (
     <div>
@@ -17,7 +17,7 @@ const AddCategory = (props) => {
             name="category"
             className="addCategoryInput"
             type="text"
-            value={Category}
+            value={category}
             placeholder="enter new category"
             onChange={handleCategoryInputChange}
           />
@@ -31,7 +31,7 @@ const AddCategory = (props) => {
 }
 
 AddCategory.propTypes = {
-  Category: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
   handleCategoryInputChange: PropTypes.func.isRequired,
   addNewCategory: PropTypes.func.isRequired,
 }

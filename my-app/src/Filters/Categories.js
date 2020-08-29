@@ -48,10 +48,10 @@ const Categories = () => {
     setIsEditMode(!isEditMode)
   }
 
-  const updateCategoryName = (categoryEditInput, Category) => {
+  const updateCategoryName = (categoryEditInput, category) => {
     let newCategory = []
     newCategory = Categories.map((currentCategory) => {
-      if (currentCategory === Category) {
+      if (currentCategory === category) {
         return categoryEditInput
       }
       return currentCategory
@@ -61,10 +61,10 @@ const Categories = () => {
     handleEditButton()
   }
 
-  const deleteCategory = (Category) => {
+  const deleteCategory = (category) => {
     let newCategory = []
     newCategory = Categories.filter((currentCategory) => {
-      if (currentCategory !== Category) {
+      if (currentCategory !== category) {
         return currentCategory
       }
       return ''
@@ -87,14 +87,14 @@ const Categories = () => {
       />
       <div className={classes.categoriesContainer}>
         {
-          Categories.map((Category, index) => (
+          Categories.map((category, index) => (
             <CategoryView
               handleEditButton={handleEditButton}
               isEditMode={isEditMode}
               updateCategoryName={updateCategoryName}
               deleteCategory={deleteCategory}
-              key={Category}
-              Category={Category}
+              key={category}
+              category={category}
               index={index}
             />
           ))

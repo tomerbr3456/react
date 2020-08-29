@@ -52,9 +52,9 @@ const useStyles = createUseStyles({
 })
 
 const ReadOnlyCategories = (props) => {
-  const { Category, changeEditMode, deleteCategory } = props
+  const { category, changeEditMode, deleteCategory } = props
   ReadOnlyCategories.propTypes = {
-    Category: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
     handleEditButton: PropTypes.func.isRequired,
     deleteCategory: PropTypes.func.isRequired,
   }
@@ -62,9 +62,9 @@ const ReadOnlyCategories = (props) => {
   return (
     <div className={classes.editContainer}>
       <div className={classes.categoryViewContainer}>
-        <button className={classes.deleteCategoryButton} value={Category} onClick={deleteCategory}>Delete</button>
+        <button className={classes.deleteCategoryButton} value={category} onClick={deleteCategory}>Delete</button>
         <div className={classes.editCategory} onClick={changeEditMode}>Edit</div>
-        <div className={classes.categoryView}>{Category}</div>
+        <div className={classes.categoryView}>{category}</div>
       </div>
     </div>
   )

@@ -46,8 +46,8 @@ const Filters = (props) => {
 	return (
 		<div className={classes.filtersContainer}>
 			<select className={classes.selectCategory} value={searchedCategory} onChange={pickCategory} >
-				{Categories.map((Category, index) =>
-					<option key={index} value={Category}>{Category}</option>
+				{Categories.map((category, index) =>
+					<option key={index} value={category}>{category}</option>
 				)}
 			</select>
 			<div className={classes.searchedNameContainer}>

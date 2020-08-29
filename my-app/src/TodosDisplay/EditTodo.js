@@ -45,7 +45,7 @@ const EditTodo = (props) => {
 
   const pickCategory = (event) => {
     setSelectCategory(event.target.value)
-    setNewTodo({ ...newTodo, Category: event.target.value })
+    setNewTodo({ ...newTodo, category: event.target.value })
   }
 
 
@@ -63,8 +63,8 @@ const EditTodo = (props) => {
         value={newTodo.name} placeholder={"enter new name"} onChange={handleTodoChanges} />
       {/* שספורט לא יהיה דיפולט */}
       <select className={classes.selectCategory} value={selectCategory} onChange={pickCategory} >
-        {Categories.map((Category, index) =>
-          <option key={index} value={Category}>{Category}</option>
+        {Categories.map((category, index) =>
+          <option key={index} value={category}>{category}</option>
         )}
       </select>
       <div className={classes.updateChanges} onClick={changeTodo}>{'Done'}</div>

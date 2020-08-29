@@ -16,14 +16,14 @@ const useStyles = createUseStyles({
 // נתת שם של קומפוננטה תצוגתית בפועל היא הרבה יותר מזה
 // תפרק לפקומפוננטות ותקרא על container vs component react
 const CategoryView = (props) => {
-  const { Category, index, deleteCategory, updateCategoryName, handleEditButton, isEditMode } = props
+  const { category, index, deleteCategory, updateCategoryName, handleEditButton, isEditMode } = props
   CategoryView.propTypes = {
-    Category: PropTypes.string.isRequired, index: PropTypes.number.isRequired,
+    category: PropTypes.string.isRequired, index: PropTypes.number.isRequired,
   }
   // 
 
   const useDeleteCategory = () => {
-    deleteCategory(Category)
+    deleteCategory(category)
   }
 
   const changeEditMode = () => {
@@ -33,7 +33,7 @@ const CategoryView = (props) => {
   const [categoryEditInput, setCategoryEditInput] = useState('')
 
   const handleEditCategoryName = () => {
-    updateCategoryName(categoryEditInput, Category)
+    updateCategoryName(categoryEditInput, category)
 
   }
 
@@ -52,7 +52,7 @@ const CategoryView = (props) => {
           />
         ) : (
           <ReadOnlyCategories
-            Category={Category}
+            category={category}
             changeEditMode={changeEditMode}
             deleteCategory={useDeleteCategory}
           />
