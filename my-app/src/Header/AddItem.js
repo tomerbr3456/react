@@ -1,16 +1,71 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AddItem.css';
 import { syncStateAndLocalStorage, updateLocalStorageByState } from '../GeneralFiles/localStorageManagment'
-import { TodoListContext } from '../GeneralFiles/StateManagment'
+import { createUseStyles } from 'react-jss'
 
-const AddItem = () => {
-	const [todoList, setTodoList] = useContext(TodoListContext)
+const useStyles = createUseStyles({
+	"toDoManager": {
+		"display": "flex",
+		"height": "100px",
+		"textAlign": "center",
+		"fontSize": "50px",
+		"justifyContent": "center",
+		"alignItems": "center",
+		"width": "100%"
+	},
+	"newToDo": {
+		"width": "35%",
+		"height": "100%",
+		"backgroundColor": "whitesmoke"
+	},
+	"addInput": {
+		"fontSize": "40px",
+		"width": "100%",
+		"height": "100%",
+		"display": "inline-block",
+		"border": "1px solid #ccc",
+		"borderRadius": "4px",
+		"boxSizing": "border-box"
+	},
+	"addToDoContainer": {
+		"display": "flex",
+		"justifyContent": "center",
+		"textAlign": "center",
+		"alignItems": "center",
+		"width": "14%",
+		"height": "100%",
+		"border": "1px solid #ccc",
+		"borderRadius": "4px",
+		"backgroundColor": "blue"
+	},
+	"addToDo": {
+		"textAlign": "center",
+		"fontSize": "40px",
+		"backgroundColor": "blue",
+		"width": "100%",
+		"display": "inline-block",
+		"boxSizing": "border-box"
+	}
+})
+
+// תמצא דרך להשתמש באותה קומפוננטה בהוספת קטגוריה והוספת טודו	
+const AddItem = (props) => {
+	const { addNewItem } = props
+	// אותה בעיה כמו בTodo
+	// AddItem לא צריכה להכיר את הקונטקסט
 	const initialNameToAdd = ''
-	const [nameToAdd, setNameToAdd] = useState(initialNameToAdd);
+	let [nameToAdd, setNameToAdd] = useState(initialNameToAdd);
 
-	const handleAddNewName = (event) => {
+	const handleAddItem = (event) => {
 		setNameToAdd(event.target.value)
 		updateLocalStorageByState({ nameToAdd: event.target.value })
+	}
+
+	const addNewName = () => {
+		if (nameToAdd !== '') {
+			addNewItem(nameToAdd)
+			nameToAdd = ''
+		}
 	}
 
 	useEffect(() => {
@@ -18,27 +73,18 @@ const AddItem = () => {
 		setNameToAdd(localStorageValues.nameToAdd)
 	}, [initialNameToAdd])
 
-	const addNewToDo = () => {
-		if (nameToAdd !== "") {
-			let newToDo = {
-				id: todoList[todoList.length - 1].id + 1,
-				name: nameToAdd, isActive: false, Category: ''
-			}
-			setTodoList([...todoList, newToDo])
-			setNameToAdd("")
-		}
-	}
-
+	const classes = useStyles()
 	return (
-		<div className="toDoManager">
-			<div className="newToDo" >
-				<input className="addInput" type="text" value={nameToAdd} onChange={handleAddNewName} />
+
+		<div className={classes.toDoManager}>
+			<div className={classes.newToDo}>
+				<input className={classes.addInput} type="text" value={nameToAdd} onChange={handleAddItem} />
 			</div>
-			<div className="addToDoContainer" >
-				<div className="addToDo" onClick={addNewToDo} >Add</div>
+			<div className={classes.addToDoContainer}>
+				<div className={classes.addToDo} onClick={addNewName}>Add</div>
 			</div>
 		</div>
 
 	)
 }
-export default AddItem 
+export default AddItem

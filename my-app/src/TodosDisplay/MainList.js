@@ -1,16 +1,30 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
-import './App.css'
+import React, { useState, useEffect, useContext, useMemo, } from 'react';
 import AddItem from '../Header/AddItem';
 import Filters from '../Filters/Filters';
 import Todos from './Todos'
 import { syncStateAndLocalStorage, updateLocalStorageByState } from '../GeneralFiles/localStorageManagment'
-import { TodoListContext } from '../GeneralFiles/StateManagment'
+import { TodoListContext } from '../GeneralFiles/TodoListManagment'
+import { createUseStyles } from 'react-jss'
 
-const todoList = [{ id: 1, name: "GUY", isActive: true, Category: "Friends" }, { id: 66777, name: "GUY2", isActive: true, Category: "Sport" }, { id: 2, name: "GUY3", isActive: false, Category: "Study" }]
-const CategoryOptions = ["sports", "friends", "study", "all"];
+const useStyles = createUseStyles({
+  "headerStyle": {
+    "textAlign": "center",
+    "height": "100px"
+  }
+})
+
+// lo tov
+const INITIAL_TODOS = [{
+  id: 1, name: 'GUY', isActive: true, Category: 'Friends',
+}, {
+  id: 66777, name: 'GUY2', isActive: true, Category: 'Sport',
+}, {
+  id: 2, name: 'GUY3', isActive: false, Category: 'Study',
+}]
+const Categories = ['sports', 'friends', 'study', 'all'];
 
 const MAIN_LIST_STATE_INITIAL_VALUES = {
-  todoList,
+  todoList: INITIAL_TODOS,
   searchedName: '',
   searchedCategory: '',
 }
@@ -21,12 +35,11 @@ const MainList = () => {
   const [searchedCategory, setSearchedCategory] = useState(MAIN_LIST_STATE_INITIAL_VALUES.searchedCategory)
 
   const updateTodo = (id, newTodo) => {
-
-    const newList = todoList.map(currentTodo => {
+    const newList = todoList.map((currentTodo) => {
       if (currentTodo.id === id) {
         return {
           ...currentTodo,
-          ...newTodo
+          ...newTodo,
         }
       }
       return currentTodo
@@ -34,13 +47,24 @@ const MainList = () => {
     setTodoList(newList)
   }
 
-  const updateSearchedName = (searchedName) => {
-    setSearchedName(searchedName)
+  const updateSearchedName = (putSearchedName) => {
+    setSearchedName(putSearchedName)
   }
 
-  const handleChangeCategory = (searchedCategory) => {
-    setSearchedCategory(searchedCategory)
+  const handleChangeCategory = (putsearchedCategory) => {
+    setSearchedCategory(putsearchedCategory)
   }
+
+  const addNewToDo = (nameToAdd) => {
+    const newToDo = {
+      id: todoList[todoList.length - 1].id + 1,
+      name: nameToAdd,
+      isActive: false,
+      Category: '',
+    }
+    setTodoList([...todoList, newToDo])
+  }
+
 
   useEffect(() => {
     const syncedState = syncStateAndLocalStorage(MAIN_LIST_STATE_INITIAL_VALUES)
@@ -54,33 +78,38 @@ const MainList = () => {
     updateLocalStorageByState(mainListState)
   }, [todoList, searchedName, searchedCategory]);
 
-  const filteredTodosByName = useMemo(() => {
-    return todoList.filter((currentTodo) => currentTodo.name.toLowerCase().includes(searchedName.toLowerCase()))
-  }, [todoList, searchedName]
-  );
+  const filteredTodosByName = useMemo(() => todoList.filter(
+    (currentTodo) => currentTodo.name.toLowerCase().includes(searchedName.toLowerCase()),
+  ),
+    [todoList, searchedName]);
 
-  const filteredTodosByNameAndCategory = useMemo(() =>
-    filteredTodosByName.filter(currentTodo => {
-      if (currentTodo.Category.toLowerCase() === searchedCategory || searchedCategory === 'all')
-        return currentTodo
-      return ''
-    })
-    , [searchedCategory, filteredTodosByName])
+  const filteredTodosByNameAndCategory = useMemo(() => filteredTodosByName.filter((currentTodo) => {
+    if (currentTodo.Category.toLowerCase() === searchedCategory || searchedCategory === 'all') {
+      return currentTodo
+    }
+    return ''
+  }),
+    [searchedCategory, filteredTodosByName])
+  const classes = useStyles()
 
   return (
-    <div className="Page" >
-      <h1 className="headerStyle">ToDoList</h1>
-      <Filters CategoryOptions={CategoryOptions}
+    <div>
+      <h1 className={classes.headerStyle}>ToDoList</h1>
+      <Filters
+        Categories={Categories}
         handleChangeCategory={handleChangeCategory}
         searchedName={searchedName}
-        searchedCategory={searchedCategory} updateSearchedName={updateSearchedName} />
-      <AddItem />
-      <Todos Todos={filteredTodosByNameAndCategory}
-        updateTodo={updateTodo} />
+        searchedCategory={searchedCategory}
+        updateSearchedName={updateSearchedName}
+      />
+      <AddItem
+        addNewItem={addNewToDo}
+      />
+      <Todos
+        TodosList={filteredTodosByNameAndCategory}
+        updateTodo={updateTodo}
+      />
     </div>
   )
-
 }
-
 export default MainList
-

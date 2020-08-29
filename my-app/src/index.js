@@ -1,27 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import MainList from './TodosDisplay/MainList';
-import UpdateCategories from './Filters/UpdateCategories';
-import * as serviceWorker from './serviceWorker';
-import { ToDoListProvider } from './GeneralFiles/StateManagment'
-import { CategoryOptionsProvider } from './GeneralFiles/StateManagment'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import MainList from './TodosDisplay/MainList';
+import UpdateCategories from './Filters/Categories';
+import * as serviceWorker from './serviceWorker';
+import { CategoryProvider } from './GeneralFiles/StateManagment'
+import { ToDoListProvider } from './GeneralFiles/TodoListManagment'
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <CategoryOptionsProvider>
+      <CategoryProvider>
         <ToDoListProvider>
           <Switch>
             <Route path="/UpdateCategories" component={UpdateCategories} />
             <Route path="/" exact component={MainList} />
           </Switch>
         </ToDoListProvider>
-      </CategoryOptionsProvider>
+      </CategoryProvider>
     </Router>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

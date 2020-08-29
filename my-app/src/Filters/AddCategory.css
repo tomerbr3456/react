@@ -1,27 +1,16 @@
-.categoriesContainer{
-  display: flex;
-  max-height: 800px;
+.categoriesContainer2{
+  max-height:300px;
   overflow-y: auto;
   overflow-x: hidden;
-  flex-direction: column;
-  justify-content: center;
   width: 100%;
-  align-items: center;
+}
+.categoryManager{
   text-align: center;
+    height: 120px;
 }
 .homePage{
-  font-size: 40px;
-  width: 10%;
-  background-color:lime;
-  color:whitesmoke;
-  display: inline-block;
-  border: 1px solid white;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-.editCategory{
   font-size: 20px;
-  width: 20%;
+  width: 4%;
   height: 100%;
   background-color: cornflowerblue;
   display: inline-block;
@@ -29,6 +18,7 @@
   border-radius: 4px;
   box-sizing: border-box;
 }
+
 .InputAndAddContainer{
   display: flex;
   justify-content: center;
@@ -38,20 +28,10 @@
 .takePlace{
   width:10%;
 }
-.categoryViewContainer{
- display: flex;
- justify-content: space-around;
- font-size: 50px;
- width: 50%;
- height: 30%;
- border: 1px solid black;
- border-radius: 4px;
- background-color:greenyellow ;
- height: 20%;
-}
+
 .categoriesList{
   width: 100%;
-  height: 100%;
+  height: 150px;
 
 }
 .updateCategory{
@@ -66,24 +46,6 @@
   width: 100px;
   font-size:20px;
 }
-.categoryView{
-  font-size: 50px;
- width: 50%;
- border: 1px solid black;
- border-radius: 4px;
- background-color:steelblue ;
- height: 20%;
-
-}
-.editContainer{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-  align-items: center;
-  text-align: center;
-
-}
 .addCategoryButton{
   font-size: 40px;
   width: 15%;
@@ -94,16 +56,7 @@
   box-sizing: border-box;
 
 }
-.deleteCategoryButton{
-  font-size: 20px;
-  width: 20%;
-  height: 100%;
-  background-color: cornflowerblue;
-  display: inline-block;
-  border: 1px solid black;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
+
 .addCategoryInputContainer{
   display: flex;
   justify-content: center;

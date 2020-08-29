@@ -1,6 +1,45 @@
 import React, { useContext, useState, } from 'react';
-import './Todo.css';
-import { CategoryOptionsContext } from '../GeneralFiles/StateManagment'
+import { CategoryContext } from '../GeneralFiles/StateManagment'
+import { createUseStyles } from 'react-jss'
+
+const EditTodoStyle = createUseStyles({
+  deleteAndCheckBoxActiveContainer: {
+    display: 'flex',
+    height: '100%',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    textAlign: 'center',
+  },
+  checkBoxActive: {
+    height: '30%',
+    width: '2%',
+    right: '150px'
+  },
+  deleteItem: {
+    width: "10%",
+    float: "left",
+    fontSize: "20px",
+    backgroundColor: "dodgerblue"
+  },
+  updateName: {
+    "width": "30%",
+    "height": "50%",
+    "fontSize": "20px",
+    "border": "1px solid #ccc",
+    "borderRadius": "4px",
+    "boxSizing": "border-box"
+  },
+  selectCategory: {
+    "backgroundColor": "DodgerBlue",
+    "height": "55px",
+    "width": "70px"
+  },
+  "updateChanges": {
+    "width": "100px",
+    "fontSize": "20px"
+  }
+})
 const EditTodo = (props) => {
   const [selectCategory, setSelectCategory] = useState('sports')
 
@@ -10,23 +49,25 @@ const EditTodo = (props) => {
   }
 
 
-  const [CategoryOptions] = useContext(CategoryOptionsContext)
+  const [Categories] = useContext(CategoryContext)
 
   const { handleTodoChanges, newTodo, handleDelete, changeTodo, setNewTodo } = props
+  const classes = EditTodoStyle()
   return (
 
-    <div className={"deleteAndCheckBoxActiveContainer"}>
-      <input name={'isActive'} className={"checkBoxActive"} type="checkbox"
+    <div className={classes.deleteAndCheckBoxActiveContainer}>
+      <input name={'isActive'} className={classes.checkBoxActive} type="checkbox"
         onClick={handleTodoChanges} checked={newTodo.isActive ? true : false} />
-      <div className={"deleteItem"} onClick={handleDelete}>{'Delete'}</div>
-      <input name={'name'} className={"updateName"} type="text"
+      <div className={classes.deleteItem} onClick={handleDelete}>{'Delete'}</div>
+      <input name={'name'} className={classes.updateName} type="text"
         value={newTodo.name} placeholder={"enter new name"} onChange={handleTodoChanges} />
-      <select className="selectCategory" value={selectCategory} onChange={pickCategory} >
-        {CategoryOptions.map((Category, index) =>
+      {/* שספורט לא יהיה דיפולט */}
+      <select className={classes.selectCategory} value={selectCategory} onChange={pickCategory} >
+        {Categories.map((Category, index) =>
           <option key={index} value={Category}>{Category}</option>
         )}
       </select>
-      <div className={"updateChanges"} onClick={changeTodo}>{'Done'}</div>
+      <div className={classes.updateChanges} onClick={changeTodo}>{'Done'}</div>
     </div>
   )
 }

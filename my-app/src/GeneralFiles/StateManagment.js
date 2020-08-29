@@ -1,36 +1,21 @@
 import React, { useState, createContext, } from 'react';
-export const TodoListContext = createContext()
-export const CategoryOptionsContext = createContext()
+export const CategoryContext = createContext()
+
+// initial
 
 
-const INITIALIZE_TODO_LIST = [{ id: 1, name: "GUY", isActive: true, Category: "Friends" },
-{ id: 66777, name: "GUY2", isActive: true, Category: "Sport" },
-{ id: 2, name: "GUY3", isActive: false, Category: "Study" }]
+// זה לא כבר לא שייך דווקא לmainlist
+// initialize -> initial
+const INITIAL_CATEGORY = ["sports", "friends", "study", "all"];
 
-const MAIN_LIST_STATE_INITIAL_VALUES = {
-  INITIALIZE_TODO_LIST,
-  searchedName: '',
-  searchedCategory: '',
-}
-const INITIALIZE_CATEGORY_OPTIONS = ["sports", "friends", "study", "all"];
-
-
-export const CategoryOptionsProvider = (props) => {
-  const [CategoryOptions, setCategoryOptions] = useState(INITIALIZE_CATEGORY_OPTIONS)
+// remove Options
+export const CategoryProvider = (props) => {
+  const [Categories, setCategory] = useState(INITIAL_CATEGORY)
 
   return (
-    <CategoryOptionsContext.Provider value={[CategoryOptions, setCategoryOptions]}>
+    <CategoryContext.Provider value={[Categories, setCategory]}>
       {props.children}
-    </CategoryOptionsContext.Provider>
+    </CategoryContext.Provider>
   )
 }
 
-export const ToDoListProvider = (props) => {
-  const [todoList, setTodoList] = useState(MAIN_LIST_STATE_INITIAL_VALUES.INITIALIZE_TODO_LIST)
-
-  return (
-    <TodoListContext.Provider value={[todoList, setTodoList]}>
-      {props.children}
-    </TodoListContext.Provider>
-  )
-}

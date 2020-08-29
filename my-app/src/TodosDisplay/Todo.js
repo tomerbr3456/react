@@ -1,23 +1,30 @@
 import React, { useState, useContext } from 'react';
-import './Todo.css';
+import PropTypes from 'prop-types'
 import EditTodo from './EditTodo';
+import './Todo.css'
 import ReadOnlyTodo from './ReadOnlyTodo';
-import { TodoListContext } from '../GeneralFiles/StateManagment'
+import { TodoListContext } from '../GeneralFiles/TodoListManagment'
 
 const Todo = (props) => {
   const [todoList, setTodoList] = useContext(TodoListContext)
   const { index, todo, updateTodo } = props
-
-  const handleDelete = (event) => {
-    const id = todo.id
-    setTodoList(todoList.filter((todo) => todo.id !== id));
-    toggleEditChange()
+  Todo.propTypes = {
+    todo: PropTypes.number.isRequired,
+    index: PropTypes.number.isRequired,
+    updateTodo: PropTypes.func.isRequired,
   }
-
   const [isEditMode, setIsEditMode] = useState(false);
 
   const toggleEditChange = () => {
     setIsEditMode(!isEditMode)
+  }
+
+  const handleDelete = () => {
+    const { id } = todo
+    // תקרא על ניהול נכון יותר של הסטייט שלך בקונטקסט של ריאקט
+    // אתה לא רוצה לחזור שוב ושוב על השורה הזו בשביל להסיר איבר
+    setTodoList(todoList.filter((currentTodo) => currentTodo.id !== id));
+    toggleEditChange()
   }
 
   const handleEditButton = (event) => {
@@ -28,14 +35,13 @@ const Todo = (props) => {
   const [newTodo, setNewTodo] = useState(todo)
 
   const handleTodoChanges = (event) => {
-
-    const target = event.target;
+    const { target } = event;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name
+    const { name } = target
     setNewTodo({ ...newTodo, [name]: value })
   }
 
-  const changeTodo = (event) => {
+  const changeTodo = () => {
     let todoFields = { ...newTodo }
     if (newTodo.name === '') {
       todoFields = { ...todoFields, name: todo.name }
@@ -45,25 +51,29 @@ const Todo = (props) => {
     toggleEditChange()
   }
 
+  // זה היה בשביל להראות לך כמה רנדרים קורים מכל שינוי של טודו
+  console.log(`render ${todo.name}`)
+
   let todoListRowClass = 'isActiveButton'
-  todoListRowClass = newTodo.isActive ? todoListRowClass + ' Active' : todoListRowClass
+  todoListRowClass = newTodo.isActive ? `${todoListRowClass} Active` : todoListRowClass
   return (
     <div key={index.toString()} className={todoListRowClass}>
       {isEditMode
-        ?
-        <EditTodo
-          handleTodoChanges={handleTodoChanges}
-          newTodo={newTodo}
-          handleDelete={handleDelete}
-          changeTodo={changeTodo}
-          setNewTodo={setNewTodo} />
-        :
-        <ReadOnlyTodo
-          handleEditButton={handleEditButton}
-          todo={todo} />
-      }
+        ? (
+          <EditTodo
+            handleTodoChanges={handleTodoChanges}
+            newTodo={newTodo}
+            handleDelete={handleDelete}
+            changeTodo={changeTodo}
+            setNewTodo={setNewTodo}
+          />
+        ) : (
+          <ReadOnlyTodo
+            handleEditButton={handleEditButton}
+            todo={todo}
+          />
+        )}
     </div>
   )
-
 }
 export default Todo

@@ -1,65 +1,62 @@
-import React, { useContext, useState, } from 'react';
-import './AddCategory.css';
-import { CategoryOptionsContext } from '../GeneralFiles/StateManagment'
-import { updateLocalStorageByState } from '../GeneralFiles/localStorageManagment'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types'
+import EditCategory from './EditCategory';
+import ReadOnlyCategories from './ReadOnlyCategories'
+import { createUseStyles } from 'react-jss'
 
-const CategoryView = (props) => {
-  const { Category, index } = props
-  const [CategoryOptions, SetCategoryOptions] = useContext(CategoryOptionsContext)
-  const [isEditMode, setIsEditMode] = useState(false);
 
-  const deleteCategory = (event) => {
-    let newCategoryOptions = []
-    newCategoryOptions = CategoryOptions.filter(currentCategory => {
-      if (currentCategory !== Category)
-        return currentCategory
-      return ''
-    });
-    SetCategoryOptions(newCategoryOptions)
-    updateLocalStorageByState({ CategoryOptions: newCategoryOptions })
-    event.stopPropagation()
+const useStyles = createUseStyles({
+  "categoriesList": {
+    "width": "100%",
+    "height": "150px"
   }
-  const updateCategoryName = () => {
-    let newCategoryOptions = []
-    newCategoryOptions = CategoryOptions.map(currentCategory => {
-      if (currentCategory === Category)
-        return categoryEditInput
-      return currentCategory
-    })
-    SetCategoryOptions(newCategoryOptions)
-    updateLocalStorageByState({ CategoryOptions: newCategoryOptions })
+})
+
+
+// נתת שם של קומפוננטה תצוגתית בפועל היא הרבה יותר מזה
+// תפרק לפקומפוננטות ותקרא על container vs component react
+const CategoryView = (props) => {
+  const { Category, index, deleteCategory, updateCategoryName, handleEditButton, isEditMode } = props
+  CategoryView.propTypes = {
+    Category: PropTypes.string.isRequired, index: PropTypes.number.isRequired,
+  }
+  // 
+
+  const useDeleteCategory = () => {
+    deleteCategory(Category)
+  }
+
+  const changeEditMode = () => {
     handleEditButton()
   }
 
   const [categoryEditInput, setCategoryEditInput] = useState('')
 
+  const handleEditCategoryName = () => {
+    updateCategoryName(categoryEditInput, Category)
+
+  }
+
   const handleCategoryChanges = (event) => {
     setCategoryEditInput(event.target.value)
   }
-
-  const handleEditButton = () => {
-    setIsEditMode(!isEditMode)
-  }
+  const classes = useStyles()
   return (
-    <div key={index} className="categoriesList">
+    <div key={index} className={classes.categoriesList}>
       {isEditMode
-        ?
-        <div className="editContainer">
-          <div className="categoryViewContainer">
-            <input name={'name'} className={"updateCategory"} type="text"
-              value={categoryEditInput} placeholder={"enter new category"} onChange={handleCategoryChanges} />
-            <div className="done" onClick={updateCategoryName}>Done</div>
-          </div>
-        </div>
-        :
-        <div className="editContainer">
-          <div className="categoryViewContainer">
-            <button className="deleteCategoryButton" value={Category} onClick={deleteCategory}>{'Delete'}</button>
-            <div className="editCategory" onClick={handleEditButton}>{'Edit'}</div>
-            <div className="categoryView">{Category}</div>
-          </div>
-        </div>
-      }
+        ? (
+          <EditCategory
+            categoryEditInput={categoryEditInput}
+            handleCategoryChanges={handleCategoryChanges}
+            updateCategoryName={handleEditCategoryName}
+          />
+        ) : (
+          <ReadOnlyCategories
+            Category={Category}
+            changeEditMode={changeEditMode}
+            deleteCategory={useDeleteCategory}
+          />
+        )}
     </div>
   )
 }
