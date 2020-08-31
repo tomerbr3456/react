@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import MainList from './TodosDisplay/MainList';
-import Categories from './Filters/Categories';
+import Categories from './Categories/CategoriesContainer';
 import * as serviceWorker from './serviceWorker';
-import { CategoryProvider } from './GeneralFiles/StateManagment'
-import { ToDoListProvider } from './GeneralFiles/TodoListManagment'
+import { CategoryProvider } from './StateManagment/CategoriesState'
+import { ToDoListProvider } from './StateManagment/TodoListState'
 
 ReactDOM.render(
   <React.StrictMode>

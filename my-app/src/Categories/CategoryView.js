@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types'
 import EditCategory from './EditCategory';
-import ReadOnlyCategories from './ReadOnlyCategories'
+import ReadOnlyCategory from './ReadOnlyCategory'
 import { createUseStyles } from 'react-jss'
 
 
@@ -16,7 +16,7 @@ const useStyles = createUseStyles({
 // נתת שם של קומפוננטה תצוגתית בפועל היא הרבה יותר מזה
 // תפרק לפקומפוננטות ותקרא על container vs component react
 const CategoryView = (props) => {
-  const { category, index, deleteCategory, updateCategoryName, handleEditButton, isEditMode } = props
+  const { category, index, deleteCategory, updateCategoryName } = props
   CategoryView.propTypes = {
     category: PropTypes.string.isRequired, index: PropTypes.number.isRequired,
   }
@@ -30,10 +30,20 @@ const CategoryView = (props) => {
     handleEditButton()
   }
 
-  const [categoryEditInput, setCategoryEditInput] = useState('')
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const handleEditButton = () => {
+    setIsEditMode(!isEditMode)
+  }
+
+  const [categoryEditInput, setCategoryEditInput] = useState(category)
 
   const handleEditCategoryName = () => {
-    updateCategoryName(categoryEditInput, category)
+    if (categoryEditInput !== '') {
+      updateCategoryName(categoryEditInput, category)
+      setCategoryEditInput(category)
+      handleEditButton()
+    }
 
   }
 
@@ -52,7 +62,7 @@ const CategoryView = (props) => {
           />
         ) : (
           // single Category 
-          <ReadOnlyCategories
+          <ReadOnlyCategory
             category={category}
             changeEditMode={changeEditMode}
             deleteCategory={useDeleteCategory}

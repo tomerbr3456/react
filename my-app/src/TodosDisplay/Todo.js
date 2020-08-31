@@ -1,30 +1,22 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types'
 import EditTodo from './EditTodo';
 import './Todo.css'
 import ReadOnlyTodo from './ReadOnlyTodo';
-import { TodoListContext } from '../GeneralFiles/TodoListManagment'
 
 const Todo = (props) => {
-  const [todoList, setTodoList] = useContext(TodoListContext)
-  const { index, todo, updateTodo } = props
-  Todo.propTypes = {
-    todo: PropTypes.number.isRequired,
-    index: PropTypes.number.isRequired,
-    updateTodo: PropTypes.func.isRequired,
-  }
+  const { index, todo, updateTodo, handleDelete } = props
   const [isEditMode, setIsEditMode] = useState(false);
 
   const toggleEditChange = () => {
     setIsEditMode(!isEditMode)
   }
 
-  const handleDelete = () => {
-    const { id } = todo
+  const handleDeleteSubmition = () => {
+    handleDelete(todo.id)
+    toggleEditChange()
     // תקרא על ניהול נכון יותר של הסטייט שלך בקונטקסט של ריאקט
     // אתה לא רוצה לחזור שוב ושוב על השורה הזו בשביל להסיר איבר
-    setTodoList(todoList.filter((currentTodo) => currentTodo.id !== id));
-    toggleEditChange()
   }
 
   const handleEditButton = (event) => {
@@ -63,7 +55,7 @@ const Todo = (props) => {
           <EditTodo
             handleTodoChanges={handleTodoChanges}
             newTodo={newTodo}
-            handleDelete={handleDelete}
+            handleDelete={handleDeleteSubmition}
             changeTodo={changeTodo}
             setNewTodo={setNewTodo}
           />
@@ -75,5 +67,10 @@ const Todo = (props) => {
         )}
     </div>
   )
+}
+Todo.propTypes = {
+  todo: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
+  updateTodo: PropTypes.func.isRequired,
 }
 export default Todo

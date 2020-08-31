@@ -29,7 +29,6 @@ const useStyles = createUseStyles({
     "width": "20%",
     "height": "50%",
     "backgroundColor": "cornflowerblue",
-    "display": "inline-block",
     "border": "1px solid black",
     "borderRadius": "4px",
     "boxSizing": "border-box"
@@ -37,6 +36,7 @@ const useStyles = createUseStyles({
   "editCategory": {
     "fontSize": "20px",
     "width": "20%",
+    " height": "50%",
     "backgroundColor": "cornflowerblue",
     "border": "1px solid black",
     "borderRadius": "4px",
@@ -45,15 +45,16 @@ const useStyles = createUseStyles({
   "categoryView": {
     "fontSize": "20px",
     "width": "50%",
+    " height": "50%",
     "border": "1px solid black",
     "borderRadius": "4px",
     "backgroundColor": "steelblue"
   }
 })
 
-const ReadOnlyCategories = (props) => {
+const ReadOnlyCategory = (props) => {
   const { category, changeEditMode, deleteCategory } = props
-  ReadOnlyCategories.propTypes = {
+  ReadOnlyCategory.propTypes = {
     category: PropTypes.string.isRequired,
     handleEditButton: PropTypes.func.isRequired,
     deleteCategory: PropTypes.func.isRequired,
@@ -63,10 +64,10 @@ const ReadOnlyCategories = (props) => {
     <div className={classes.editContainer}>
       <div className={classes.categoryViewContainer}>
         <button className={classes.deleteCategoryButton} value={category} onClick={deleteCategory}>Delete</button>
-        <div className={classes.editCategory} onClick={changeEditMode}>Edit</div>
-        <div className={classes.categoryView}>{category}</div>
+        <button className={classes.editCategory} onClick={changeEditMode}>Edit</button>
+        <button className={classes.categoryView}>{category}</button>
       </div>
     </div>
   )
 }
-export default ReadOnlyCategories
+export default ReadOnlyCategory

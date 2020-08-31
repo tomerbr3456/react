@@ -1,6 +1,7 @@
 import React, { useContext, useMemo, } from 'react';
-import { CategoryContext } from '../GeneralFiles/StateManagment'
+import { CategoryContext } from '../StateManagment/CategoriesState'
 import { createUseStyles } from 'react-jss'
+import { allFilter } from './FilterConstants'
 
 const useStyles = createUseStyles({
 	"filtersContainer": {
@@ -31,11 +32,11 @@ const useStyles = createUseStyles({
 const Filters = (props) => {
 	const { handleChangeCategory, updateSearchedName, searchedCategory, searchedName } = props
 
-	const [Categories] = useContext(CategoryContext)
+	const [categories] = useContext(CategoryContext)
 
 	const categoriesFilterOptions = useMemo(() => {
-		return [...Categories, 'all']
-	}, [Categories])
+		return [...categories, allFilter]
+	}, [categories])
 
 	const pickCategory = (event) => {
 		handleChangeCategory(event.target.value)

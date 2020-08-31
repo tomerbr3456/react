@@ -1,13 +1,13 @@
 import React, { useState, createContext, } from 'react';
 export const CategoryContext = createContext()
 
-const INITIAL_CATEGORY = ["sports", "friends", "study", "all"];
+const INITIAL_CATEGORY = ["sports"];
 
 export const CategoryProvider = (props) => {
-  const [Categories, setCategory] = useState(INITIAL_CATEGORY)
+  const [categories, setCategories] = useState(INITIAL_CATEGORY)
 
   return (
-    <CategoryContext.Provider value={[Categories, setCategory]}>
+    <CategoryContext.Provider value={[categories, setCategories]}>
       {props.children}
     </CategoryContext.Provider>
   )

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './AddItem.css';
-import { syncStateAndLocalStorage, updateLocalStorageByState } from '../GeneralFiles/localStorageManagment'
+import { syncStateAndLocalStorage, updateLocalStorageByState } from '../LocalStorage/localStorageManagment'
 import { createUseStyles } from 'react-jss'
 
 const useStyles = createUseStyles({
-	"toDoManager": {
+	"AddItemContainer": {
 		"display": "flex",
 		"height": "100px",
 		"textAlign": "center",
@@ -13,7 +13,7 @@ const useStyles = createUseStyles({
 		"alignItems": "center",
 		"width": "100%"
 	},
-	"newToDo": {
+	"newItem": {
 		"width": "35%",
 		"height": "100%",
 		"backgroundColor": "whitesmoke"
@@ -27,7 +27,7 @@ const useStyles = createUseStyles({
 		"borderRadius": "4px",
 		"boxSizing": "border-box"
 	},
-	"addToDoContainer": {
+	"addItemContainer": {
 		"display": "flex",
 		"justifyContent": "center",
 		"textAlign": "center",
@@ -38,7 +38,7 @@ const useStyles = createUseStyles({
 		"borderRadius": "4px",
 		"backgroundColor": "blue"
 	},
-	"addToDo": {
+	"addItem": {
 		"textAlign": "center",
 		"fontSize": "40px",
 		"backgroundColor": "blue",
@@ -66,7 +66,7 @@ const AddItem = (props) => {
 			addNewItem(nameToAdd)
 			// lo tov
 			// setNameToAdd
-			nameToAdd = ''
+			setNameToAdd('')
 		}
 	}
 
@@ -79,12 +79,12 @@ const AddItem = (props) => {
 	return (
 		// כל מה שקשור ספציפית לTODO לא צריך להיות פה
 		// או שהשם שלו צריך להשתנות
-		<div className={classes.toDoManager}>
-			<div className={classes.newToDo}>
+		<div className={classes.AddItemContainer}>
+			<div className={classes.newItem}>
 				<input className={classes.addInput} type="text" value={nameToAdd} onChange={handleAddItem} />
 			</div>
-			<div className={classes.addToDoContainer}>
-				<div className={classes.addToDo} onClick={addNewName}>Add</div>
+			<div className={classes.addItemContainer}>
+				<div className={classes.addItem} onClick={addNewName}>Add</div>
 			</div>
 		</div>
 

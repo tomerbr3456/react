@@ -1,5 +1,5 @@
 import React, { useContext, useState, } from 'react';
-import { CategoryContext } from '../GeneralFiles/StateManagment'
+import { CategoryContext } from '../StateManagment/CategoriesState'
 import { createUseStyles } from 'react-jss'
 
 const EditTodoStyle = createUseStyles({
@@ -41,17 +41,15 @@ const EditTodoStyle = createUseStyles({
   }
 })
 const EditTodo = (props) => {
-  const [selectCategory, setSelectCategory] = useState('sports')
+  const { handleTodoChanges, newTodo, handleDelete, changeTodo, setNewTodo } = props
+  const [selectCategory, setSelectCategory] = useState(newTodo.category)
 
   const pickCategory = (event) => {
     setSelectCategory(event.target.value)
     setNewTodo({ ...newTodo, category: event.target.value })
   }
 
-
-  const [Categories] = useContext(CategoryContext)
-
-  const { handleTodoChanges, newTodo, handleDelete, changeTodo, setNewTodo } = props
+  const [categories] = useContext(CategoryContext)
   const classes = EditTodoStyle()
   return (
 
@@ -63,7 +61,7 @@ const EditTodo = (props) => {
         value={newTodo.name} placeholder={"enter new name"} onChange={handleTodoChanges} />
       {/* שספורט לא יהיה דיפולט */}
       <select className={classes.selectCategory} value={selectCategory} onChange={pickCategory} >
-        {Categories.map((category, index) =>
+        {categories.map((category, index) =>
           <option key={index} value={category}>{category}</option>
         )}
       </select>

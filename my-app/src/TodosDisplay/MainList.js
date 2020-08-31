@@ -1,30 +1,30 @@
 import React, { useState, useEffect, useContext, useMemo, } from 'react';
-import AddItem from '../Header/AddItem';
+import AddItem from './AddItem';
 import Filters from '../Filters/Filters';
 import Todos from './Todos'
-import { syncStateAndLocalStorage, updateLocalStorageByState } from '../GeneralFiles/localStorageManagment'
-import { TodoListContext } from '../GeneralFiles/TodoListManagment'
+import { INITIAL_TODO_LIST } from '../StateManagment/TodoListState'
+import { syncStateAndLocalStorage, updateLocalStorageByState } from '../LocalStorage/localStorageManagment'
+import { TodoListContext } from '../StateManagment/TodoListState'
 import { createUseStyles } from 'react-jss'
+import { allFilter } from '../Filters/FilterConstants'
+import { Link } from 'react-router-dom'
 
 const useStyles = createUseStyles({
   "headerStyle": {
     "textAlign": "center",
     "height": "100px"
+  },
+  editCategories: {
+    width: '10%',
+    fontSize: '20px',
+    backgroundColor: 'dodgerblue'
   }
 })
-
 // lo tov
-const INITIAL_TODOS = [{
-  id: 1, name: 'GUY', isActive: true, category: 'Friends',
-}, {
-  id: 66777, name: 'GUY2', isActive: true, category: 'Sport',
-}, {
-  id: 2, name: 'GUY3', isActive: false, category: 'Study',
-}]
-const Categories = ['sports', 'friends', 'study', 'all'];
+const categories = ['sports', 'friends', 'study', allFilter];
 
 const MAIN_LIST_STATE_INITIAL_VALUES = {
-  todoList: INITIAL_TODOS,
+  todoList: INITIAL_TODO_LIST,
   searchedName: '',
   searchedCategory: '',
 }
@@ -49,6 +49,10 @@ const MainList = () => {
 
   const updateSearchedName = (putSearchedName) => {
     setSearchedName(putSearchedName)
+  }
+
+  const handleDelete = (id) => {
+    setTodoList(todoList.filter((currentTodo) => currentTodo.id !== id));
   }
 
   const handleChangeCategory = (putsearchedCategory) => {
@@ -85,10 +89,10 @@ const MainList = () => {
 
   const filteredTodosByNameAndCategory = useMemo(() => filteredTodosByName.filter((currentTodo) => {
     // move 'all' into const in Filters folder in FilterConstants file and use it everywhere you use 'all'
-    if (currentTodo.category.toLowerCase() === searchedCategory || searchedCategory === 'all') {
-      return currentTodo
+    if (currentTodo.category.toLowerCase() === searchedCategory || searchedCategory === allFilter) {
+      return true
     }
-    return ''
+    return false
   }),
     [searchedCategory, filteredTodosByName])
   const classes = useStyles()
@@ -96,8 +100,9 @@ const MainList = () => {
   return (
     <div>
       <h1 className={classes.headerStyle}>ToDoList</h1>
+      <Link to="/Categories" className={classes.editCategories}>Edit Categories</Link>
       <Filters
-        Categories={Categories}
+        categories={categories}
         handleChangeCategory={handleChangeCategory}
         searchedName={searchedName}
         searchedCategory={searchedCategory}
@@ -107,6 +112,7 @@ const MainList = () => {
         addNewItem={addNewToDo}
       />
       <Todos
+        handleDelete={handleDelete}
         TodosList={filteredTodosByNameAndCategory}
         updateTodo={updateTodo}
       />
