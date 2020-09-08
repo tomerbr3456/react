@@ -40,6 +40,8 @@ const EditTodoStyle = createUseStyles({
     "fontSize": "20px"
   }
 })
+
+
 const EditTodo = (props) => {
   const { handleTodoChanges, newTodo, handleDelete, changeTodo, setNewTodo } = props
   const [selectCategory, setSelectCategory] = useState(newTodo.category)

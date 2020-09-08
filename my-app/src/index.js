@@ -7,16 +7,20 @@ import Categories from './Categories/CategoriesContainer';
 import * as serviceWorker from './serviceWorker';
 import { CategoryProvider } from './StateManagment/CategoriesState'
 import { ToDoListProvider } from './StateManagment/TodoListState'
+import { FilteredTodosProvider } from './StateManagment/FilteredArrayState'
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <CategoryProvider>
         <ToDoListProvider>
-          <Switch>
-            <Route path="/Categories" component={Categories} />
-            <Route path="/" exact component={MainList} />
-          </Switch>
+          <FilteredTodosProvider>
+
+            <Switch>
+              <Route path="/Categories" component={Categories} />
+              <Route path="/" exact component={MainList} />
+            </Switch>
+          </FilteredTodosProvider>
         </ToDoListProvider>
       </CategoryProvider>
     </Router>

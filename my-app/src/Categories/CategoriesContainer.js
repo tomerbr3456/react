@@ -89,10 +89,8 @@ const Categories = () => {
   const deleteCategory = (category) => {
     let newCategory = []
     newCategory = categories.filter((currentCategory) => {
-      if (currentCategory !== category) {
-        return true
-      }
-      return false
+      return (currentCategory !== category)
+
     });
     setCategories(newCategory)
     updateLocalStorageByState({ categories: newCategory })

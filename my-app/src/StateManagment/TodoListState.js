@@ -2,9 +2,9 @@ import React, { useState, createContext, } from 'react';
 export const TodoListContext = createContext()
 
 // ושיהיה רק אחד כזה
-export const INITIAL_TODO_LIST = [{ id: 1, name: "GUY", isActive: true, category: "Friends" },
-{ id: 66777, name: "GUY2", isActive: true, category: "Sport" },
-{ id: 2, name: "GUY3", isActive: false, category: "Study" }]
+export const INITIAL_TODO_LIST = [{ id: 1, name: "GUY", isActive: true, category: "Friends", sortIndex: 3 },
+{ id: 66777, name: "GUY2", isActive: true, category: "Sport", sortIndex: 4 },
+{ id: 2, name: "GUY3", isActive: false, category: "Study", sortIndex: 15 }]
 
 // MAIN LIST ???
 const TODOS_INITIAL_VALUES = {

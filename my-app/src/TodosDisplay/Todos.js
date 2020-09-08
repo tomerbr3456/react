@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types'
-import Todo from './Todo'
+import React, { useContext } from 'react';
+import SortableTodo from './SortableTodo'
 import { createUseStyles } from 'react-jss'
+import { TodoListContext } from '../StateManagment/TodoListState'
 
 const TodosStyle = createUseStyles({
   listContainer: {
@@ -25,36 +25,27 @@ const TodosStyle = createUseStyles({
 })
 
 const Todos = (props) => {
-  const {
-    toggleActive, deleteToDo, updateTodo, TodosList, handleDelete
-  } = props
-  // 
+  const [todoList] = useContext(TodoListContext)
+  const { toggleActive, deleteToDo, updateTodo, handleDelete } = props
+
   const classes = TodosStyle()
 
   return (
     <div className={classes.listContainer}>
       <div className={classes.listOfToDos}>
-        {TodosList.map((todo, index) => (
-          <Todo
-            key={todo.id}
+        {todoList.map((todo, index) => (
+          <SortableTodo
+            key={`todo-${todo.id}`}
+            index={index}
             updateTodo={updateTodo}
             todo={todo}
-            index={index}
             deleteToDo={deleteToDo}
             toggleActive={toggleActive}
-            handleDelete={handleDelete}
-          />
+            handleDelete={handleDelete} />
         ))}
+
       </div>
     </div>
-
   )
 }
-Todos.propTypes = {
-  toggleActive: PropTypes.func.isRequired,
-  updateTodo: PropTypes.number.isRequired,
-  deleteToDo: PropTypes.func.isRequired,
-  TodosList: PropTypes.func.isRequired,
-}
-
 export default Todos

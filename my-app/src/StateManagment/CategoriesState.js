@@ -1,7 +1,7 @@
 import React, { useState, createContext, } from 'react';
 export const CategoryContext = createContext()
 
-const INITIAL_CATEGORY = ["sports"];
+const INITIAL_CATEGORY = ['',];
 
 export const CategoryProvider = (props) => {
   const [categories, setCategories] = useState(INITIAL_CATEGORY)
