@@ -1,15 +1,3 @@
-TODO:
-
-formatting: ctrl A + ctrl K + F
-
-
-
-class names - improve naming
-
--- code review
-fix icon position
-
-
 stop progration stops event from getting over the whole things inside element with it.
 
 -- questions
