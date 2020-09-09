@@ -1,9 +1,0 @@
-Next steps:
-
-Replace delete button with edit button
-
-when edit mode is active
-todo name is editable (read about conditional rendering (react documentation)),
-checkbox for isActive shown,
-delete button shown,
-done editting button
