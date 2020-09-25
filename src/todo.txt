@@ -1,0 +1,19 @@
+TODO:
+
+formatting: ctrl A + ctrl K + F
+
+
+
+class names - improve naming
+
+-- code review
+fix icon position
+
+
+stop progration stops event from getting over the whole things inside element with it.
+
+-- questions
+why should i prevent from arrow functions inside render
+arrow functions makes render everytime they being called this making the preformance bad
+
+check why handle submit triggers refresh
