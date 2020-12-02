@@ -1,12 +1,10 @@
-/* eslint-disable linebreak-style */
-// eslint-disable-next-line linebreak-style
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import CategoryView from './CategoryView'
-import { CategoryContext } from '../StateManagment/CategoriesState'
+import { CategoryContext } from '../StateManagment/CategoryContext'
 import { TodoListContext } from '../StateManagment/TodoListState'
 import { syncStateAndLocalStorage, updateLocalStorageByState } from '../LocalStorage/localStorageManagment'
-import AddItem from '../TodosDisplay/AddItem';
+import AddItem from '../Todos/AddItem';
 import { createUseStyles } from 'react-jss'
 
 const useStyles = createUseStyles({
@@ -36,13 +34,11 @@ const useStyles = createUseStyles({
 const INITIAL_CATEGORY_INPUT = ['sports']
 const Categories = () => {
 
-  // סט ברבים תרשום
   const [categories, setCategories] = useContext(CategoryContext)
 
   const addNewCategory = (categoryToAdd) => {
     const newCategories = [...categories, categoryToAdd]
     setCategories(newCategories)
-    // 
     updateLocalStorageByState({ categories: newCategories })
   }
 
@@ -96,11 +92,6 @@ const Categories = () => {
     updateLocalStorageByState({ categories: newCategory })
     updateTodosByDeleteCategory(category)
   }
-
-  // useEffect(() => {
-  //   const mainListState = { todoList }
-  //   updateLocalStorageByState(mainListState)
-  // }, [todoList]);
 
   useEffect(() => {
     const localStorageValues = syncStateAndLocalStorage({ categories: INITIAL_CATEGORY_INPUT })

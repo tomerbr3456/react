@@ -48,11 +48,9 @@ const useStyles = createUseStyles({
 	}
 })
 
-// תמצא דרך להשתמש באותה קומפוננטה בהוספת קטגוריה והוספת טודו	
+
 const AddItem = (props) => {
 	const { addNewItem } = props
-	// אותה בעיה כמו בTodo
-	// AddItem לא צריכה להכיר את הקונטקסט
 	const initialNameToAdd = ''
 	let [nameToAdd, setNameToAdd] = useState(initialNameToAdd);
 
@@ -64,8 +62,6 @@ const AddItem = (props) => {
 	const addNewName = () => {
 		if (nameToAdd !== '') {
 			addNewItem(nameToAdd)
-			// lo tov
-			// setNameToAdd
 			setNameToAdd('')
 		}
 	}
@@ -77,8 +73,6 @@ const AddItem = (props) => {
 
 	const classes = useStyles()
 	return (
-		// כל מה שקשור ספציפית לTODO לא צריך להיות פה
-		// או שהשם שלו צריך להשתנות
 		<div className={classes.AddItemContainer}>
 			<div className={classes.newItem}>
 				<input className={classes.addInput} type="text" value={nameToAdd} onChange={handleAddItem} />
@@ -87,7 +81,6 @@ const AddItem = (props) => {
 				<div className={classes.addItem} onClick={addNewName}>Add</div>
 			</div>
 		</div>
-
 	)
 }
 export default AddItem

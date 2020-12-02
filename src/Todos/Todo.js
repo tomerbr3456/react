@@ -15,8 +15,6 @@ const Todo = (props) => {
   const handleDeleteSubmition = () => {
     handleDelete(todo.id)
     toggleEditChange()
-    // תקרא על ניהול נכון יותר של הסטייט שלך בקונטקסט של ריאקט
-    // אתה לא רוצה לחזור שוב ושוב על השורה הזו בשביל להסיר איבר
   }
 
   const handleEditButton = (event) => {
@@ -42,9 +40,6 @@ const Todo = (props) => {
     updateTodo(todo.id, todoFields)
     toggleEditChange()
   }
-
-  // זה היה בשביל להראות לך כמה רנדרים קורים מכל שינוי של טודו
-  console.log(`render ${todo.name}`)
 
   let todoListRowClass = 'isActiveButton'
   todoListRowClass = newTodo.isActive ? `${todoListRowClass} Active` : todoListRowClass

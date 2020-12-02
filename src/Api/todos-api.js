@@ -1,11 +1,4 @@
-// dont use node-fetch in client side
-// const fetch = require('node-fetch')
-// import react, { useContext } from 'react';
-// import { TodoListContext } from '../StateManagment/TodoListState'
-// const [todoList, setTodoList] = useContext(TodoListContext)
-
-
-export async function postNewTodo(url = '', data = {}) {
+export async function addTodo(url = '', data = {}) {
   const response = await fetch(url, {
     method: 'POST',
     mode: 'cors',
@@ -21,9 +14,7 @@ export async function postNewTodo(url = '', data = {}) {
   return response.json();
 }
 
-
-
-export async function deleteTodoMethod(url = '', data = {}) {
+export async function deleteTodo(url = '', data = {}) {
   const response = await fetch(url, {
     method: 'DELETE',
     mode: 'cors',
@@ -35,7 +26,7 @@ export async function deleteTodoMethod(url = '', data = {}) {
 }
 
 
-export async function putUpdatedTodo(url = '', data = {}) {
+export async function updateTodo(url = '', data = {}) {
   const response = await fetch(url, {
     method: 'PUT',
     mode: 'cors',
@@ -46,8 +37,3 @@ export async function putUpdatedTodo(url = '', data = {}) {
   });
   return response.json();
 }
-
-
-
-
-

@@ -2,11 +2,10 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import AddItem from './AddItem';
 import Filters from '../Filters/Filters';
 import { INITIAL_TODO_LIST } from '../StateManagment/TodoListState'
-import { syncStateAndLocalStorage, updateLocalStorageByState } from '../LocalStorage/localStorageManagment'
+import { updateLocalStorageByState } from '../LocalStorage/localStorageManagment'
 import { TodoListContext } from '../StateManagment/TodoListState'
-//import { FilteredTodosContext } from '../StateManagment/FilteredArrayState'
+import * as TodosApi from '../Api/todos-api'
 import { createUseStyles } from 'react-jss'
-//import { allFilter } from '../Filters/FilterConstants'
 import { Link } from 'react-router-dom'
 import SortableTodoContainer from './SortableTodoContainer';
 
@@ -32,7 +31,6 @@ const MainList = () => {
   const [searchedName, setSearchedName] = useState(MAIN_LIST_STATE_INITIAL_VALUES.searchedName)
   const [todoList, setTodoList] = useContext(TodoListContext)
   const [searchedCategory, setSearchedCategory] = useState(MAIN_LIST_STATE_INITIAL_VALUES.searchedCategory)
-  //const [filteredTodos, setFilteredTodos] = useContext(FilteredTodosContext)
 
   const updateTodo = (id, newTodo) => {
     const newList = todoList.map((currentTodo) => {
@@ -45,6 +43,11 @@ const MainList = () => {
       return currentTodo
     })
     setTodoList(newList)
+
+    TodosApi.updateTodo(`http://localhost:5000/api/todos/${id}`, { ...newTodo, id: id, sort: id, active: newTodo.isActive, category: newTodo.category })
+      .catch(err => {
+        throw err
+      });
   }
 
   const updateSearchedName = (putSearchedName) => {
@@ -52,7 +55,12 @@ const MainList = () => {
   }
 
   const handleDelete = (id) => {
-    setTodoList(todoList.filter((currentTodo) => currentTodo.id !== id));
+    TodosApi.deleteTodo(`http://localhost:5000/api/todos/${id}`, { id })
+      .then(() => {
+        setTodoList(todoList.filter((currentTodo) => currentTodo.id !== id))
+      }).catch(err => {
+        throw err
+      })
   }
 
   const handleChangeCategory = (putsearchedCategory) => {
@@ -68,6 +76,11 @@ const MainList = () => {
       sortIndex: todoList[todoList.length - 1].sortIndex + 1
     }
     setTodoList([...todoList, newToDo])
+
+
+    TodosApi.addTodo('http://localhost:5000/api/todos',
+      { ...newToDo, sort: newToDo.id, active: false, category: 'sports' })
+
   }
 
   const sortTodosByIndex = useCallback(() => {
@@ -86,36 +99,24 @@ const MainList = () => {
   }, [setTodoList, todoList])
 
 
-  useEffect(() => {
-    const syncedState = syncStateAndLocalStorage(MAIN_LIST_STATE_INITIAL_VALUES)
-    setTodoList(syncedState.todoList)
-    setSearchedName(syncedState.searchedName)
-    setSearchedCategory(syncedState.searchedCategory)
-  }, [setTodoList]);
+  const getTodos = useCallback(async () => {
+    await fetch('http://localhost:5000/api/todos').then(r => r.json())
+      .then(res => { setTodoList(res) }).catch(err => {
+        throw err
+      })
+  }, [setTodoList])
 
-  // useEffect(() => {
-  //   sortTodosByIndex()
-  // }, [sortTodosByIndex]);
+
 
   useEffect(() => {
-    // sortTodosByIndex()
-    const mainListState = { searchedCategory, searchedName, todoList }
+    getTodos()
+  }, [setTodoList, getTodos]);
+
+  useEffect(() => {
+    const mainListState = { searchedCategory, searchedName }
     updateLocalStorageByState(mainListState)
   }, [todoList, searchedName, searchedCategory, setTodoList, sortTodosByIndex]);
 
-  // const filteredTodosByName = useMemo(() => todoList.filter(
-  //   (currentTodo) => currentTodo.name.toLowerCase().includes(searchedName.toLowerCase()),
-  // ),
-  //   [todoList, searchedName]);
-
-  //  setFilteredTodos (useMemo(() => filteredTodosByName.filter((currentTodo) => {
-  //     // move 'all' into const in Filters folder in FilterConstants file and use it everywhere you use 'all'
-  //     if (currentTodo.category.toLowerCase() === searchedCategory || searchedCategory === allFilter) {
-  //       return true
-  //     }
-  //     return false
-  //   }),
-  // [searchedCategory, filteredTodosByName]))
   const classes = useStyles()
 
   return (
