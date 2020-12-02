@@ -5,9 +5,7 @@ import { INITIAL_TODO_LIST } from '../StateManagment/TodoListState'
 import { updateLocalStorageByState } from '../LocalStorage/localStorageManagment'
 import { TodoListContext } from '../StateManagment/TodoListState'
 import * as TodosApi from '../Api/todos-api'
-//import { FilteredTodosContext } from '../StateManagment/FilteredTodosContext'
 import { createUseStyles } from 'react-jss'
-//import { allFilter } from '../Filters/FilterConstants'
 import { Link } from 'react-router-dom'
 import SortableTodoContainer from './SortableTodoContainer';
 
@@ -33,7 +31,6 @@ const MainList = () => {
   const [searchedName, setSearchedName] = useState(MAIN_LIST_STATE_INITIAL_VALUES.searchedName)
   const [todoList, setTodoList] = useContext(TodoListContext)
   const [searchedCategory, setSearchedCategory] = useState(MAIN_LIST_STATE_INITIAL_VALUES.searchedCategory)
-  //const [filteredTodos, setFilteredTodos] = useContext(FilteredTodosContext)
 
   const updateTodo = (id, newTodo) => {
     const newList = todoList.map((currentTodo) => {
