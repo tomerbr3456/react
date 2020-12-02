@@ -4,8 +4,8 @@ import Filters from '../Filters/Filters';
 import { INITIAL_TODO_LIST } from '../StateManagment/TodoListState'
 import { updateLocalStorageByState } from '../LocalStorage/localStorageManagment'
 import { TodoListContext } from '../StateManagment/TodoListState'
-import { postNewTodo, deleteTodoMethod, putUpdatedTodo } from '../ServerRequests/Requests'
-//import { FilteredTodosContext } from '../StateManagment/FilteredArrayState'
+import * as TodosApi from '../Api/todos-api'
+//import { FilteredTodosContext } from '../StateManagment/FilteredTodosContext'
 import { createUseStyles } from 'react-jss'
 //import { allFilter } from '../Filters/FilterConstants'
 import { Link } from 'react-router-dom'
@@ -47,11 +47,8 @@ const MainList = () => {
     })
     setTodoList(newList)
 
-    // changeData?
-    putUpdatedTodo(`http://localhost:5000/api/todos/${id}`, { ...newTodo, id: id, sort: id, active: newTodo.isActive, category: newTodo.category })
-      .then(data => {
-        console.log(data); // JSON data parsed by `data.json()` call
-      }).catch(err => {
+    TodosApi.updateTodo(`http://localhost:5000/api/todos/${id}`, { ...newTodo, id: id, sort: id, active: newTodo.isActive, category: newTodo.category })
+      .catch(err => {
         throw err
       });
   }
@@ -61,16 +58,12 @@ const MainList = () => {
   }
 
   const handleDelete = (id) => {
-    console.log(id)
-    setTodoList(todoList.filter((currentTodo) => currentTodo.id !== id));
-    // deleteData?
-    deleteTodoMethod(`http://localhost:5000/api/todos/${id}`, { id: id })
-      .then(data => {
-        console.log(id)
-        console.log(data); // JSON data parsed by `data.json()` call
+    TodosApi.deleteTodo(`http://localhost:5000/api/todos/${id}`, { id })
+      .then(() => {
+        setTodoList(todoList.filter((currentTodo) => currentTodo.id !== id))
       }).catch(err => {
         throw err
-      });
+      })
   }
 
   const handleChangeCategory = (putsearchedCategory) => {
@@ -88,13 +81,9 @@ const MainList = () => {
     setTodoList([...todoList, newToDo])
 
 
-    // postData??
-    postNewTodo('http://localhost:5000/api/todos', { ...newToDo, sort: newToDo.id, active: false, category: 'sports' })
-      .then(data => {
-        console.log(data); // JSON data parsed by `data.json()` call
-      }).catch(err => {
-        throw err
-      });
+    TodosApi.addTodo('http://localhost:5000/api/todos',
+      { ...newToDo, sort: newToDo.id, active: false, category: 'sports' })
+
   }
 
   const sortTodosByIndex = useCallback(() => {
@@ -123,7 +112,6 @@ const MainList = () => {
 
 
   useEffect(() => {
-    // fetchData??
     getTodos()
   }, [setTodoList, getTodos]);
 
@@ -132,19 +120,6 @@ const MainList = () => {
     updateLocalStorageByState(mainListState)
   }, [todoList, searchedName, searchedCategory, setTodoList, sortTodosByIndex]);
 
-  // const filteredTodosByName = useMemo(() => todoList.filter(
-  //   (currentTodo) => currentTodo.name.toLowerCase().includes(searchedName.toLowerCase()),
-  // ),
-  //   [todoList, searchedName]);
-
-  //  setFilteredTodos (useMemo(() => filteredTodosByName.filter((currentTodo) => {
-  //     // move 'all' into const in Filters folder in FilterConstants file and use it everywhere you use 'all'
-  //     if (currentTodo.category.toLowerCase() === searchedCategory || searchedCategory === allFilter) {
-  //       return true
-  //     }
-  //     return false
-  //   }),
-  // [searchedCategory, filteredTodosByName]))
   const classes = useStyles()
 
   return (

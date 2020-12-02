@@ -12,15 +12,8 @@ const useStyles = createUseStyles({
   }
 })
 
-
-// נתת שם של קומפוננטה תצוגתית בפועל היא הרבה יותר מזה
-// תפרק לפקומפוננטות ותקרא על container vs component react
 const CategoryView = (props) => {
   const { category, index, deleteCategory, updateCategoryName } = props
-  CategoryView.propTypes = {
-    category: PropTypes.string.isRequired, index: PropTypes.number.isRequired,
-  }
-  // 
 
   const useDeleteCategory = () => {
     deleteCategory(category)
@@ -61,7 +54,6 @@ const CategoryView = (props) => {
             updateCategoryName={handleEditCategoryName}
           />
         ) : (
-          // single Category 
           <ReadOnlyCategory
             category={category}
             changeEditMode={changeEditMode}
@@ -70,6 +62,10 @@ const CategoryView = (props) => {
         )}
     </div>
   )
+}
+
+CategoryView.propTypes = {
+  category: PropTypes.string.isRequired, index: PropTypes.number.isRequired,
 }
 
 export default CategoryView

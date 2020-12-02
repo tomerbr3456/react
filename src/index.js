@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import MainList from './TodosDisplay/MainList';
+import MainList from './Todos/MainList';
 import Categories from './Categories/CategoriesContainer';
 import * as serviceWorker from './serviceWorker';
-import { CategoryProvider } from './StateManagment/CategoriesState'
+import { CategoryProvider } from './StateManagment/CategoryContext'
 import { ToDoListProvider } from './StateManagment/TodoListState'
-import { FilteredTodosProvider } from './StateManagment/FilteredArrayState'
+import { FilteredTodosProvider } from './StateManagment/FilteredTodosContext'
 
 ReactDOM.render(
   <React.StrictMode>

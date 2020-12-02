@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, } from 'react';
-import { CategoryContext } from '../StateManagment/CategoriesState'
+import { CategoryContext } from '../StateManagment/CategoryContext'
 import { createUseStyles } from 'react-jss'
 import { allFilter } from './FilterConstants'
 

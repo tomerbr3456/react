@@ -1,5 +1,5 @@
 import React, { useContext, useState, } from 'react';
-import { CategoryContext } from '../StateManagment/CategoriesState'
+import { CategoryContext } from '../StateManagment/CategoryContext'
 import { createUseStyles } from 'react-jss'
 
 const EditTodoStyle = createUseStyles({
@@ -61,7 +61,6 @@ const EditTodo = (props) => {
       <div className={classes.deleteItem} onClick={handleDelete}>{'Delete'}</div>
       <input name={'name'} className={classes.updateName} type="text"
         value={newTodo.name} placeholder={"enter new name"} onChange={handleTodoChanges} />
-      {/* שספורט לא יהיה דיפולט */}
       <select className={classes.selectCategory} value={selectCategory} onChange={pickCategory} >
         {categories.map((category, index) =>
           <option key={index} value={category}>{category}</option>
